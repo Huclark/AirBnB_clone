@@ -40,15 +40,53 @@ class HBNBCommand(cmd.Cmd):
 
         Args:
             arg (str): The argument passed to create command
+
+        Usage example: $ create BaseModel
         """
         if not arg:
             print("** class name missing **")
         elif arg not in globals() or not isinstance(globals()[arg], type):
             print("** class doesn't exist **")
         else:
-            newInstance = globals()[arg]()
-            newInstance.save()
-            print(newInstance.id)
+            new_instance = globals()[arg]()
+            new_instance.save()
+            print(new_instance.id)
+
+    def do_show(self, arg):
+        """Prints the string representation of an instance based on the 
+        class name and id.
+
+        Args:
+            arg: Command arguments
+
+        Usage example: $ show BaseModel 1234-1234-1234
+        """
+        # Store various command arguments in a list
+        argv = arg.split()
+
+        # Handle no argument
+        if not arg:
+            print("** class name missing **")
+
+        # Handle invalid class
+        elif argv[0] not in globals() or not isinstance(globals()[argv[0]], type):
+            print("** class doesn't exist **")
+
+        # Handle missing id argument
+        elif len(argv) != 2:
+            print("** instance id missing **")
+
+        # Print instance
+        else:
+            # Construct the key
+            key = "{}.{}".format(argv[0], argv[1])
+            # Retrieve all objects from storage
+            obj_data = models.storage.all()
+            # Check if object exists
+            if key in obj_data:
+                print(obj_data[key])
+            else:
+                print("** no instance found **")
 
 
 if __name__ == "__main__":
