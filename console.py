@@ -53,7 +53,7 @@ class HBNBCommand(cmd.Cmd):
             print(new_instance.id)
 
     def do_show(self, arg):
-        """Prints the string representation of an instance based on the 
+        """Prints the string representation of an instance based on the
         class name and id.
 
         Args:
@@ -69,7 +69,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
 
         # Handle invalid class
-        elif argv[0] not in globals() or not isinstance(globals()[argv[0]], type):
+        elif argv[0] not in globals() or\
+                not isinstance(globals()[argv[0]], type):
             print("** class doesn't exist **")
 
         # Handle missing id argument
@@ -103,7 +104,8 @@ class HBNBCommand(cmd.Cmd):
             print("** class name missing **")
 
         # Handle invalid class
-        elif argv[0] not in globals() or not isinstance(globals()[argv[0]], type):
+        elif argv[0] not in globals() or\
+                not isinstance(globals()[argv[0]], type):
             print("** class doesn't exist **")
 
         # Handle missing id argument
