@@ -52,6 +52,35 @@ class HBNBCommand(cmd.Cmd):
             new_instance.save()
             print(new_instance.id)
 
+    def validate_argv(self, argv):
+        """Validates the command arguments and print error messages
+        if needed.
+
+        Args:
+            argv (list): A list of the command arguments
+
+        Returns:
+            bool: True if validation passes. False if otherwise.
+        """
+        # Handle no argument
+        if not argv:
+            print("** class name missing **")
+            return False
+
+        # Handle invalid class
+        elif argv[0] not in globals() or\
+                not isinstance(globals()[argv[0]], type):
+            print("** class doesn't exist **")
+            return False
+
+        # Handle missing id argument
+        elif len(argv) < 2:
+            print("** instance id missing **")
+            return False
+
+        return True
+
+
     def do_show(self, arg):
         """Prints the string representation of an instance based on the
         class name and id.
@@ -63,22 +92,10 @@ class HBNBCommand(cmd.Cmd):
         """
         # Store various command arguments in a list
         argv = arg.split()
+        
+        # argv = ["BaseModel", "1234"]
 
-        # Handle no argument
-        if not arg:
-            print("** class name missing **")
-
-        # Handle invalid class
-        elif argv[0] not in globals() or\
-                not isinstance(globals()[argv[0]], type):
-            print("** class doesn't exist **")
-
-        # Handle missing id argument
-        elif len(argv) != 2:
-            print("** instance id missing **")
-
-        # Print instance
-        else:
+        if self.validate_argv(argv):
             # Construct the key
             key = "{}.{}".format(argv[0], argv[1])
             # Retrieve all objects from storage
@@ -95,25 +112,13 @@ class HBNBCommand(cmd.Cmd):
 
         Args:
             arg: The command arguments
+
+        Usage example: $ destroy BaseModel 1234-1234-1234
         """
         # Store various command arguments in a list
         argv = arg.split()
 
-        # Handle no argument
-        if not arg:
-            print("** class name missing **")
-
-        # Handle invalid class
-        elif argv[0] not in globals() or\
-                not isinstance(globals()[argv[0]], type):
-            print("** class doesn't exist **")
-
-        # Handle missing id argument
-        elif len(argv) != 2:
-            print("** instance id missing **")
-
-        # Delete instance
-        else:
+        if self.validate_argv(argv):
             # Construct the key
             key = "{}.{}".format(argv[0], argv[1])
             # Retrieve all objects from storage
@@ -123,7 +128,10 @@ class HBNBCommand(cmd.Cmd):
                 del obj_data[key]
                 models.storage.save()
             else:
-                print("*?* no instance found **")
+                print("** no instance found **")        
+
+    # def do_update(self, arg):
+    #     argv = arg.split()
 
 
 if __name__ == "__main__":
