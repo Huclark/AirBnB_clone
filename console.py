@@ -88,6 +88,41 @@ class HBNBCommand(cmd.Cmd):
             else:
                 print("** no instance found **")
 
+    def do_destroy(self, arg):
+        """Deletes an instance based on the class name and id
+        and then updates the JSON file with the changes made
+
+        Args:
+            arg: The command arguments
+        """
+        # Store various command arguments in a list
+        argv = arg.split()
+
+        # Handle no argument
+        if not arg:
+            print("** class name missing **")
+
+        # Handle invalid class
+        elif argv[0] not in globals() or not isinstance(globals()[argv[0]], type):
+            print("** class doesn't exist **")
+
+        # Handle missing id argument
+        elif len(argv) != 2:
+            print("** instance id missing **")
+
+        # Delete instance
+        else:
+            # Construct the key
+            key = "{}.{}".format(argv[0], argv[1])
+            # Retrieve all objects from storage
+            obj_data = models.storage.all()
+            # Check if object exists
+            if key in obj_data:
+                del obj_data[key]
+                models.storage.save()
+            else:
+                print("*?* no instance found **")
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
