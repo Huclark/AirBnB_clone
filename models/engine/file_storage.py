@@ -14,6 +14,8 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
+    # __objects = { user.id : "[{} ({}) {}]"}
+
     def all(self):
         """Returns the dictionary `__objects`
 
@@ -28,7 +30,10 @@ class FileStorage:
         Args:
             obj: The new object to be added
         """
+        # Construct key
         key = "{}.{}".format(obj.__class__.__name__, obj.id)
+
+        # Assign Value to key
         self.__objects[key] = obj
 
     def save(self):
