@@ -4,6 +4,7 @@
 
 
 import cmd
+import shlex
 import models
 from models.base_model import BaseModel
 
@@ -86,12 +87,12 @@ class HBNBCommand(cmd.Cmd):
         class name and id.
 
         Args:
-            arg: Command arguments
+            arg(str): Command arguments
 
         Usage example: $ show BaseModel 1234-1234-1234
         """
         # Store various command arguments in a list
-        argv = arg.split()
+        argv = shlex.split(arg)
         
         # argv = ["BaseModel", "1234"]
 
@@ -111,12 +112,12 @@ class HBNBCommand(cmd.Cmd):
         and then updates the JSON file with the changes made
 
         Args:
-            arg: The command arguments
+            arg(str): The command arguments
 
         Usage example: $ destroy BaseModel 1234-1234-1234
         """
         # Store various command arguments in a list
-        argv = arg.split()
+        argv = shlex.split(arg)
 
         if self.validate_argv(argv):
             # Construct the key
@@ -128,10 +129,61 @@ class HBNBCommand(cmd.Cmd):
                 del obj_data[key]
                 models.storage.save()
             else:
-                print("** no instance found **")        
+                print("** no instance found **")
+                
+    def do_all(self, arg):
+        """Prints all the string representation of all instances based
+        or not on the class name
 
-    # def do_update(self, arg):
-    #     argv = arg.split()
+        Args:
+            arg (str): Command arguments
+        
+        Usage Example: $ all BaseModel or $ all
+        """ 
+        # print all instances if no argument exists
+        if not arg:
+            print([str(value) for _, value in models.storage.all().items()])
+        else:
+            # Validate argument
+            if arg not in globals() or not isinstance(globals()[arg], type):
+                print("** class doesn't exist **")
+                return
+
+            # Retrieve all instances
+            all_instances = models.storage.all()
+            new_list = []
+            
+            # put all the target class' values in new_list
+            for key, value in all_instances.items():
+                class_name, obj_id = key.split(".")
+                if class_name == arg:
+                    new_list.append(str(value))
+            # print list
+            print(new_list)                   
+
+    def do_update(self, arg):
+        argv = shlex.split(arg)
+
+        if self.validate_argv(argv):
+             # Construct the key
+            key = "{}.{}".format(argv[0], argv[1])
+            # Retrieve all objects from storage
+            all_instances = models.storage.all()
+            # Check if instance exists
+            if key not in all_instances:
+                print("** no instance found **")
+                return
+            # Check if attribute name is provided
+            if len(argv) < 3:
+                print("** attribute name missing **")
+                return
+            # Check for missing attribute value
+            if len(argv) < 4:
+                print("** value missing **")
+                return
+            # Retrieve the instance and attribute
+            setattr(all_instances[key], argv[2], argv[3])
+            all_instances[key].save()
 
 
 if __name__ == "__main__":
