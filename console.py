@@ -6,6 +6,8 @@
 import cmd
 import shlex
 import models
+from models.base_model import BaseModel
+from models.user import User
 
 
 class HBNBCommand(cmd.Cmd):
@@ -13,6 +15,12 @@ class HBNBCommand(cmd.Cmd):
     """
     # custom prompt for program
     prompt = "(hbnb) "
+
+    # Create all available classes
+    __all_classes = {
+        "BaseModel" : BaseModel,
+        "User" : User,
+    }
 
     def do_quit(self, arg):
         """Quit command to exit the program
@@ -50,12 +58,12 @@ class HBNBCommand(cmd.Cmd):
         if not argv:
             print("** class name missing **")
         # Check if class matches an available class
-        elif argv[0] not in models.storage.all_classes():
+        elif argv[0] not in self.__all_classes:
             print("** class doesn't exist **")
 
         else:
             # Create a new instance of the specified class
-            new_instance = models.storage.create_instance(argv[0])
+            new_instance = self.__all_classes[argv[0]]()
             # Save the new instance
             new_instance.save()
             # Print the the instance id
@@ -77,7 +85,7 @@ class HBNBCommand(cmd.Cmd):
             return False
 
         # Handle invalid class
-        elif argv[0] not in models.storage.all_classes():
+        elif argv[0] not in self.__all_classes:
             print("** class doesn't exist **")
             return False
 
@@ -149,7 +157,7 @@ class HBNBCommand(cmd.Cmd):
             print([str(value) for _, value in models.storage.all().items()])
         else:
             # Validate argument
-            if arg not in models.storage.all_classes():
+            if arg not in self.__all_classes:
                 print("** class doesn't exist **")
                 return
 
