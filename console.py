@@ -23,13 +23,13 @@ class HBNBCommand(cmd.Cmd):
 
     # Create all available classes
     __all_classes = {
-        "Amenity" : Amenity,
-        "BaseModel" : BaseModel,
-        "City" : City,
-        "Place" : Place,
-        "Review" : Review,
-        "State" : State,
-        "User" : User,
+        "Amenity": Amenity,
+        "BaseModel": BaseModel,
+        "City": City,
+        "Place": Place,
+        "Review": Review,
+        "State": State,
+        "User": User,
     }
 
     def do_quit(self, arg):
@@ -161,7 +161,7 @@ class HBNBCommand(cmd.Cmd):
         Usage Example: $ all BaseModel or $ all
         """
         argv = shlex.split(arg)
-        
+
         # print all instances if no argument exists
         if not arg:
             print([str(value) for _, value in models.storage.all().items()])
