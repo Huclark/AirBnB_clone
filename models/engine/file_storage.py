@@ -14,7 +14,7 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    # __objects = { user.id : "[{} ({}) {}]"}
+    # __objects = { class.id : "[{} ({}) {}]"}
 
     def all(self):
         """Returns the dictionary `__objects`
