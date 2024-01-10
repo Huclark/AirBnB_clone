@@ -6,7 +6,6 @@
 import cmd
 import shlex
 import models
-from models.base_model import BaseModel
 
 
 class HBNBCommand(cmd.Cmd):
@@ -44,13 +43,22 @@ class HBNBCommand(cmd.Cmd):
 
         Usage example: $ create BaseModel
         """
-        if not arg:
+        # Retrieve command arguments
+        argv = shlex.split(arg)
+
+        # Check if user provided command arguments
+        if not argv:
             print("** class name missing **")
-        elif arg not in globals() or not isinstance(globals()[arg], type):
+        # Check if class matches an available class
+        elif argv[0] not in models.storage.all_classes():
             print("** class doesn't exist **")
+
         else:
-            new_instance = globals()[arg]()
+            # Create a new instance of the specified class
+            new_instance = models.storage.create_instance(argv[0])
+            # Save the new instance
             new_instance.save()
+            # Print the the instance id
             print(new_instance.id)
 
     def validate_argv(self, argv):
@@ -69,8 +77,7 @@ class HBNBCommand(cmd.Cmd):
             return False
 
         # Handle invalid class
-        elif argv[0] not in globals() or\
-                not isinstance(globals()[argv[0]], type):
+        elif argv[0] not in models.storage.all_classes():
             print("** class doesn't exist **")
             return False
 
@@ -80,7 +87,6 @@ class HBNBCommand(cmd.Cmd):
             return False
 
         return True
-
 
     def do_show(self, arg):
         """Prints the string representation of an instance based on the
@@ -93,19 +99,15 @@ class HBNBCommand(cmd.Cmd):
         """
         # Store various command arguments in a list
         argv = shlex.split(arg)
-        
-        # argv = ["BaseModel", "1234"]
 
         if self.validate_argv(argv):
             # Construct the key
             key = "{}.{}".format(argv[0], argv[1])
             # Retrieve all objects from storage
             obj_data = models.storage.all()
+            obj = obj_data.get(key)
             # Check if object exists
-            if key in obj_data:
-                print(obj_data[key])
-            else:
-                print("** no instance found **")
+            print(obj if obj else "** no instance found **")
 
     def do_destroy(self, arg):
         """Deletes an instance based on the class name and id
@@ -130,42 +132,54 @@ class HBNBCommand(cmd.Cmd):
                 models.storage.save()
             else:
                 print("** no instance found **")
-                
+
     def do_all(self, arg):
         """Prints all the string representation of all instances based
         or not on the class name
 
         Args:
             arg (str): Command arguments
-        
+
         Usage Example: $ all BaseModel or $ all
-        """ 
+        """
+        argv = shlex.split(arg)
+        
         # print all instances if no argument exists
         if not arg:
             print([str(value) for _, value in models.storage.all().items()])
         else:
             # Validate argument
-            if arg not in globals() or not isinstance(globals()[arg], type):
+            if arg not in models.storage.all_classes():
                 print("** class doesn't exist **")
                 return
 
             # Retrieve all instances
             all_instances = models.storage.all()
             new_list = []
-            
+
             # put all the target class' values in new_list
             for key, value in all_instances.items():
                 class_name, obj_id = key.split(".")
-                if class_name == arg:
+                if class_name == argv[0]:
                     new_list.append(str(value))
             # print list
-            print(new_list)                   
+            print(new_list)
 
     def do_update(self, arg):
+        """Updates an instance based on the class name and id
+        by adding or updating attribute and then saves the changes to
+        the file.json file
+
+        Args:
+            arg (str): Command arguments
+
+        Usage example: update <class name> <id> <attribute name>
+                        "<attribute value>"
+        """
         argv = shlex.split(arg)
 
         if self.validate_argv(argv):
-             # Construct the key
+            # Construct the key
             key = "{}.{}".format(argv[0], argv[1])
             # Retrieve all objects from storage
             all_instances = models.storage.all()
@@ -181,7 +195,7 @@ class HBNBCommand(cmd.Cmd):
             if len(argv) < 4:
                 print("** value missing **")
                 return
-            # Retrieve the instance and attribute
+            # Set the new attribute in the right instance
             setattr(all_instances[key], argv[2], argv[3])
             all_instances[key].save()
 
