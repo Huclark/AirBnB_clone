@@ -68,3 +68,22 @@ class FileStorage:
             "BaseModel" : BaseModel,
             "User" : User
         }
+
+    def create_instance(self, class_name):
+        """Creates a new instance of the specified class and
+        adds it to the dictionary.
+
+        Args:
+            class_name (str): The class name
+
+        Returns:
+            class: A new instance of the class
+        """
+        # create new instance of the class
+        new_instance = globals()[class_name]()
+        # Construct key
+        key = "{}.{}".format(class_name, new_instance.id)
+        # Assign Value to key
+        self.__objects[key] = new_instance
+
+        return new_instance
