@@ -2,9 +2,9 @@
 """FileStorage class
 """
 
-
-from models.base_model import BaseModel
 import json
+from models.base_model import BaseModel
+from models.user import User
 
 
 class FileStorage:
@@ -14,7 +14,7 @@ class FileStorage:
     __file_path = "file.json"
     __objects = {}
 
-    # __objects = { class.id : "[{} ({}) {}]"}
+    # __objects = {class.id : "address of BaseModel Instance"}
 
     def all(self):
         """Returns the dictionary `__objects`
@@ -57,3 +57,14 @@ class FileStorage:
                     self.__objects[key] = globals()[class_name](**value)
         except FileNotFoundError:
             pass
+
+    def all_classes(self):
+        """Returns a dictionary of all available classes
+
+        Returns:
+            dict: Dictionary of all available classes
+        """
+        return {
+            "BaseModel" : BaseModel,
+            "User" : User
+        }
