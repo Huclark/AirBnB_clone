@@ -21,15 +21,15 @@ class FileStorage:
     # Eg: __objects = {class.id : "address of BaseModel Instance"}
     __objects = {}
 
-     # Create all available classes
+    # Create all available classes
     __all_classes = {
-        "Amenity" : Amenity,
-        "BaseModel" : BaseModel,
-        "City" : City,
-        "Place" : Place,
-        "Review" : Review,
-        "State" : State,
-        "User" : User,
+        "Amenity": Amenity,
+        "BaseModel": BaseModel,
+        "City": City,
+        "Place": Place,
+        "Review": Review,
+        "State": State,
+        "User": User,
     }
 
     def all(self):
@@ -69,7 +69,7 @@ class FileStorage:
             with open(self.__file_path, "r", encoding="utf-8") as file:
                 load_obj = json.load(file)
                 for key, value in load_obj.items():
-                    class_name, obj_id = key.split(".")
-                    self.__objects[key] = self.__all_classes[class_name](**value)
+                    cls_name, obj_id = key.split(".")
+                    self.__objects[key] = self.__all_classes[cls_name](**value)
         except FileNotFoundError:
             pass
