@@ -38,3 +38,29 @@ instance = globals()[class_name](**value)
 In this example, BaseModel is assumed to be a class defined in your code. The `globals()\[class_name]` expression dynamically retrieves the class, and \*\*value passes the keyword arguments to the constructor.
 
 This dynamic instantiation can be useful in scenarios where you need to create an instance of a class based on runtime information, such as user input or configuration data. However, it's important to handle potential errors, like checking if the class exists in the global symbol table.
+
+
+```python
+if command[1].find("{") == -1:
+    args = command[1].rstrip(")").split(", ")
+    # args = ["id", "attrname", "attrval"]
+    # args = ["id", "{}"]
+    if len(args) == 3:
+        ag = line[0] + " " + args[0] + " " + args[1] + " " + args[2]
+        self.do_update(ag)
+    else
+
+if len(args) == 2:
+    try:
+        # attr_dict = ast.literal_eval(args[1])
+        # attr_dict = {attname: attvalue}
+        for attribute_name, attribute_value in ast.literal_eval(args[1]).items():
+            ag = line[0] + " " + args[0] + " " + attribute_name + " " + attribute_value
+            self.do_update(ag)
+    except SyntaxError:
+        
+        print("*** Unknown syntax: {}".format(arg))
+else:
+    print("*** Unknown syntax: {}".format(arg))
+return
+```
