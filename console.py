@@ -2,8 +2,9 @@
 """Entry point of the command interpreter
 """
 
-
+import ast
 import cmd
+import re
 import shlex
 import models
 from models.amenity import Amenity
@@ -31,6 +32,8 @@ class HBNBCommand(cmd.Cmd):
         "State": State,
         "User": User,
     }
+
+    __flag = True
 
     def do_quit(self, arg):
         """Quit command to exit the program
@@ -193,9 +196,19 @@ class HBNBCommand(cmd.Cmd):
             arg (str): Command arguments
 
         Usage example: update <class name> <id> <attribute name>
-                        "<attribute value>"
+                        <attribute value>
         """
-        argv = shlex.split(arg)
+        if self.__flag:
+            argv = shlex.split(arg)
+
+        else:
+            line = arg.split(", ")
+            class_name, str_id = line[0].split()
+            argv = []
+            argv.append(class_name)
+            argv.append(str_id.strip('"'))
+            argv.append(line[1].strip('"'))
+            argv.append(line[2].strip('"'))
 
         if self.validate_argv(argv):
             # Construct the key
@@ -224,30 +237,33 @@ class HBNBCommand(cmd.Cmd):
         for _, value in models.storage.all().items():
             if type(value).__name__ == class_name:
                 count += 1
-        print(count)
         return count
-            
 
     def default(self, arg):
         # Split command line into words
         line = arg.split(".", 1)
+        # [classname, "comman(xxx)"]
 
         if len(line) < 2:
             print("*** Unknown syntax: {}".format(line[0]))
             return False
-        
+
         if line[0] not in list(self.__all_classes.keys()):
             print("*** Unknown syntax: {}".format(arg))
             return False
 
         # class_name, command_all = line[0], line[1]
         command = line[1].split("(", 1)
-
+        # command = ["command", xxxxx)]
         if len(command) < 2:
             print("*** Unknown syntax: {}".format(arg))
             return False
 
         if command[0] not in ["all", "create", "show", "destroy", "update", "count"]:
+            print("*** Unknown syntax: {}".format(arg))
+            return False
+
+        if command[0] in ["all", "count"] and not command[1].startswith(")"):
             print("*** Unknown syntax: {}".format(arg))
             return False
 
@@ -259,8 +275,12 @@ class HBNBCommand(cmd.Cmd):
             print(self.number_of_instances(line[0]))
             return
 
+        if command[0] in ["show", "destroy", "update"] and not command[1].endswith(")"):
+            print("*** Unknown syntax: {}".format(arg))
+            return False
+
         object_id = command[1].split(")", 1)
-        
+
         if command[0] == "show":
             self.do_show(line[0] + " " + object_id[0])
             return
@@ -269,7 +289,29 @@ class HBNBCommand(cmd.Cmd):
             self.do_destroy(line[0] + " " + object_id[0])
             return
 
-        
+        if command[0] == "update":
+            args = command[1].rstrip(")")
+            first_match = re.match(r'^(.*)\s*,\s*({.*})\s*(\S+)', args)
+            if not first_match:
+                matchdata = re.match(r'^(.*)\s*,\s*({.*})', args)
+                if matchdata:
+                    obj_id = matchdata.group(1)
+                    attribute_dict = ast.literal_eval(matchdata.group(2))
+                    for attribute_name, attribute_value in attribute_dict.items():
+                        ag = line[0] + " " + obj_id + " " + attribute_name + " " + attribute_value
+                        self.do_update(ag)
+
+            if first_match or not matchdata:
+                match_a = re.match(r'^(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(\S+)', args)
+                if match_a or len(args.split(", ")) < 3:
+                    print("*** Unknown syntax: {}".format(arg))
+                    return False
+                arguments = line[0] + " " + args
+                self.__flag = False
+                self.do_update(arguments)
+
+            return
+
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
