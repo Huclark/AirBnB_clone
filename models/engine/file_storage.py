@@ -69,7 +69,7 @@ class FileStorage:
             with open(self.__file_path, "r", encoding="utf-8") as file:
                 load_obj = json.load(file)
                 for key, value in load_obj.items():
-                    cls_name, obj_id = key.split(".")
-                    self.__objects[key] = self.__all_classes[cls_name](**value)
+                    cls_name = key.split(".")
+                    self.__objects[key] = self.__all_classes[cls_name[0]](**value)
         except FileNotFoundError:
             pass
