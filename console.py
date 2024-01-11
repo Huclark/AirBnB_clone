@@ -172,14 +172,15 @@ class HBNBCommand(cmd.Cmd):
                 return
 
             # Retrieve all instances
-            all_instances = models.storage.all()
             new_list = []
 
             # put all the target class' values in new_list
-            for key, value in all_instances.items():
-                class_name, obj_id = key.split(".")
-                if class_name == argv[0]:
+            for _, value in models.storage.all().items():
+                # class_name = key.split(".")
+                # if class_name[0] == argv[0]:
+                if argv[0] == type(value).__name__:
                     new_list.append(str(value))
+
             # print list
             print(new_list)
 
@@ -217,6 +218,58 @@ class HBNBCommand(cmd.Cmd):
             setattr(all_instances[key], argv[2], argv[3])
             all_instances[key].save()
 
+    @staticmethod
+    def number_of_instances(class_name):
+        count = 0
+        for _, value in models.storage.all().items():
+            if type(value).__name__ == class_name:
+                count += 1
+        print(count)
+        return count
+            
+
+    def default(self, arg):
+        # Split command line into words
+        line = arg.split(".", 1)
+
+        if len(line) < 2:
+            print("*** Unknown syntax: {}".format(line[0]))
+            return False
+        
+        if line[0] not in list(self.__all_classes.keys()):
+            print("*** Unknown syntax: {}".format(arg))
+            return False
+
+        # class_name, command_all = line[0], line[1]
+        command = line[1].split("(", 1)
+
+        if len(command) < 2:
+            print("*** Unknown syntax: {}".format(arg))
+            return False
+
+        if command[0] not in ["all", "create", "show", "destroy", "update", "count"]:
+            print("*** Unknown syntax: {}".format(arg))
+            return False
+
+        if command[0] == "all":
+            self.do_all(line[0])
+            return
+
+        if command[0] == "count":
+            print(self.number_of_instances(line[0]))
+            return
+
+        object_id = command[1].split(")", 1)
+        
+        if command[0] == "show":
+            self.do_show(line[0] + " " + object_id[0])
+            return
+
+        if command[0] == "destroy":
+            self.do_destroy(line[0] + " " + object_id[0])
+            return
+
+        
 
 if __name__ == "__main__":
     HBNBCommand().cmdloop()
