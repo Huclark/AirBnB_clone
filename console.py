@@ -331,7 +331,7 @@ class HBNBCommand(cmd.Cmd):
             # Check if args maatches the pattern,"id, {}"
             matchdata = re.match(r'^(.*)\s*,\s*({.*})', args)
             # True if args matches the exact pattern, "id, {}"
-            if not first_match or matchdata:
+            if not first_match and matchdata:
                 try:
                     # Retrieve string representation of id
                     obj_id = str(matchdata.group(1))
@@ -344,12 +344,11 @@ class HBNBCommand(cmd.Cmd):
                             + str(attribute_value)
                         # arguments = " class_name id attribute_name attribute_value"
                         self.do_update(arguments)
-                except ValueError:
+                except (ValueError, SyntaxError):
                     # If literal_eval fails to return a dict, print syntax error
                     print("*** Unknown syntax: {}".format(line))
-                return
             # True if args does not match the exact pattern, "id, {}"
-            if first_match or not matchdata:
+            else:
                 # Check if there are more than 4 arguments or less than 3 arguments
                 match_a = re.match(r'^(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(\S+)', args)
                 if match_a or len(args.split(", ")) < 3:
@@ -360,7 +359,7 @@ class HBNBCommand(cmd.Cmd):
                 # Set flag to False so do_update does not use shlex.split()
                 self.__flag = False
                 self.do_update(arguments)
-        return
+            return
 
     @staticmethod
     def all_count_helper(command):
