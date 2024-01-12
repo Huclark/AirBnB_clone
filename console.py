@@ -19,7 +19,7 @@ from models.user import User
 class HBNBCommand(cmd.Cmd):
     """The HBNBCommand class
     """
-    # custom prompt for program
+    # Custom prompt for program
     prompt = "(hbnb) "
 
     # Create all available classes
@@ -33,6 +33,7 @@ class HBNBCommand(cmd.Cmd):
         "User": User,
     }
 
+    # Boolean flag for update command
     __flag = True
 
     def do_quit(self, arg):
@@ -64,16 +65,16 @@ class HBNBCommand(cmd.Cmd):
 
         Usage example: $ create BaseModel
         """
+        # Check if user provided command arguments
+        if not arg:
+            print("** class name missing **")
+            return False
         # Retrieve command arguments
         argv = shlex.split(arg)
-
-        # Check if user provided command arguments
-        if not argv:
-            print("** class name missing **")
-        # Check if class matches an available class
-        elif argv[0] not in self.__all_classes:
+        # Print an error if class does not match the available classes
+        if argv[0] not in self.__all_classes:
             print("** class doesn't exist **")
-
+        # Create a new instance and print its id.
         else:
             # Create a new instance of the specified class
             new_instance = self.__all_classes[argv[0]]()
@@ -98,12 +99,12 @@ class HBNBCommand(cmd.Cmd):
             return False
 
         # Handle invalid class
-        elif argv[0] not in self.__all_classes:
+        if argv[0] not in self.__all_classes:
             print("** class doesn't exist **")
             return False
 
         # Handle missing id argument
-        elif len(argv) < 2:
+        if len(argv) < 2:
             print("** instance id missing **")
             return False
 
@@ -121,11 +122,13 @@ class HBNBCommand(cmd.Cmd):
         # Store various command arguments in a list
         argv = shlex.split(arg)
 
+        # Validate the command arguments
         if self.validate_argv(argv):
             # Construct the key
             key = "{}.{}".format(argv[0], argv[1])
             # Retrieve all objects from storage
             obj_data = models.storage.all()
+            # 
             obj = obj_data.get(key)
             # Check if object exists
             print(obj if obj else "** no instance found **")
