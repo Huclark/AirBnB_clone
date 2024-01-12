@@ -53,7 +53,8 @@ class HBNBCommand(cmd.Cmd):
 
     def emptyline(self):
         """Does nothing on an empty line so as to handle
-        the case where emptyline + ENTER key is used"""
+        the case where emptyline + ENTER key is used
+        """
         pass
 
     def do_create(self, arg):
@@ -261,78 +262,128 @@ class HBNBCommand(cmd.Cmd):
         # Return number of instances found
         return count
 
-    def default(self, arg):
-        # Split command line into words
-        line = arg.split(".", 1)
-        # [classname, "comman(xxx)"]
+    def default(self, line):
+        """Handles the default behaviour of the command-line interpreter
 
-        if len(line) < 2:
-            print("*** Unknown syntax: {}".format(line[0]))
-            return False
+        Args:
+            line (str): Command and arguments from the command-line
 
-        if line[0] not in list(self.__all_classes.keys()):
-            print("*** Unknown syntax: {}".format(arg))
-            return False
+        Returns:
+            bool: False if the syntax is unknown or the command is invalid;
+                  otherwise, no return value
 
-        # class_name, command_all = line[0], line[1]
-        command = line[1].split("(", 1)
-        # command = ["command", xxxxx)]
+        Description:
+            This method parses and executes commands related to managing
+            instances of different classes. The syntax for each command
+            is validated, and appropriate actions are taken based on the input.
+
+        Usage Examples:
+            $ <class name>.all()
+            $ <class name>.count()
+            $ <class name>.show(<id>)
+            $ <class name>.destroy(<id>)
+            $ <class name>.update(<id>, <attribute name>, <attribute value>)
+            $ <class name>.update(<id>, <dictionary representation>)
+        """
+        # Split command line into a list of class name and command
+        arg = line.split(".", 1)
+        # arg = [classname, "command(arguments)"]
+        # Validate class name and command syntax
+        if len(arg) < 2 or arg[0] not in list(self.__all_classes.keys()):
+            print("*** Unknown syntax: {}".format(arg[0]))
+            return
+        # Put command and arguments into a list
+        command = arg[1].split("(", 1)
+        # command = ["command", "argument"]
+        # Validate command
+        if not self.all_count_helper(command):
+            print("*** Unknown syntax: {}".format(line))
+            return
+        # Execute do_all if command is "all"
+        if command[0] == "all":
+            self.do_all(arg[0])
+            return
+        # Print number of instances if command is "count"
+        if command[0] == "count":
+            print(self.number_of_instances(arg[0]))
+            return
+        # Check if command is show, destroy or update and has the correct syntax
+        if command[0] in ["show", "destroy", "update"] and not command[1].endswith(")"):
+            print("*** Unknown syntax: {}".format(line))
+            return
+        # Obtain the object id
+        object_id = command[1].split(")", 1)
+        # Execute do_show if command is "show"
+        if command[0] == "show":
+            self.do_show(arg[0] + " " + object_id[0])
+            return
+        # Execute do_destroy if command is "destroy"
+        if command[0] == "destroy":
+            self.do_destroy(arg[0] + " " + object_id[0])
+            return
+        # Execute do_update if command is "update"
+        if command[0] == "update":
+            # Strip ")" off the arguments string
+            args = command[1].rstrip(")")
+            # args = "id and other arguments"
+            # Check if args matches the pattern, "id, {} and any non-whitespace character"
+            first_match = re.match(r'^(.*)\s*,\s*({.*})\s*(\S+)', args)
+            # Check if args maatches the pattern,"id, {}"
+            matchdata = re.match(r'^(.*)\s*,\s*({.*})', args)
+            # True if args matches the exact pattern, "id, {}"
+            if not first_match or matchdata:
+                try:
+                    # Retrieve string representation of id
+                    obj_id = str(matchdata.group(1))
+                    # Convert string representation of dictionary to a dict
+                    attribute_dict = ast.literal_eval(matchdata.group(2))
+                    # Iterate over dictionary of attribute names and values
+                    for attribute_name, attribute_value in attribute_dict.items():
+                        # Construct class_name and command arguments as a string
+                        arguments = arg[0] + " " + obj_id + " " + str(attribute_name) + " "\
+                            + str(attribute_value)
+                        # arguments = " class_name id attribute_name attribute_value"
+                        self.do_update(arguments)
+                except ValueError:
+                    # If literal_eval fails to return a dict, print syntax error
+                    print("*** Unknown syntax: {}".format(line))
+                return
+            # True if args does not match the exact pattern, "id, {}"
+            if first_match or not matchdata:
+                # Check if there are more than 4 arguments or less than 3 arguments
+                match_a = re.match(r'^(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(\S+)', args)
+                if match_a or len(args.split(", ")) < 3:
+                    print("*** Unknown syntax: {}".format(line))
+                    return
+                # Construct argument for do_update
+                arguments = arg[0] + " " + args
+                # Set flag to False so do_update does not use shlex.split()
+                self.__flag = False
+                self.do_update(arguments)
+        return
+
+    @staticmethod
+    def all_count_helper(command):
+        """Helper function for validating arguments for calling
+        do_all() and do_count methods
+
+        Args:
+            command (list): List of command and arguments
+            line (str): Commands and arguments from the command-line
+
+        Returns:
+            bool: False if command or arguments are invalid; otherwise, it 
+                  returns True
+        """
         if len(command) < 2:
-            print("*** Unknown syntax: {}".format(arg))
             return False
 
         if command[0] not in ["all", "create", "show", "destroy", "update", "count"]:
-            print("*** Unknown syntax: {}".format(arg))
             return False
 
         if command[0] in ["all", "count"] and not command[1].startswith(")"):
-            print("*** Unknown syntax: {}".format(arg))
             return False
-
-        if command[0] == "all":
-            self.do_all(line[0])
-            return
-
-        if command[0] == "count":
-            print(self.number_of_instances(line[0]))
-            return
-
-        if command[0] in ["show", "destroy", "update"] and not command[1].endswith(")"):
-            print("*** Unknown syntax: {}".format(arg))
-            return False
-
-        object_id = command[1].split(")", 1)
-
-        if command[0] == "show":
-            self.do_show(line[0] + " " + object_id[0])
-            return
-
-        if command[0] == "destroy":
-            self.do_destroy(line[0] + " " + object_id[0])
-            return
-
-        if command[0] == "update":
-            args = command[1].rstrip(")")
-            first_match = re.match(r'^(.*)\s*,\s*({.*})\s*(\S+)', args)
-            if not first_match:
-                matchdata = re.match(r'^(.*)\s*,\s*({.*})', args)
-                if matchdata:
-                    obj_id = matchdata.group(1)
-                    attribute_dict = ast.literal_eval(matchdata.group(2))
-                    for attribute_name, attribute_value in attribute_dict.items():
-                        ag = line[0] + " " + obj_id + " " + attribute_name + " " + attribute_value
-                        self.do_update(ag)
-
-            if first_match or not matchdata:
-                match_a = re.match(r'^(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(\S+)', args)
-                if match_a or len(args.split(", ")) < 3:
-                    print("*** Unknown syntax: {}".format(arg))
-                    return False
-                arguments = line[0] + " " + args
-                self.__flag = False
-                self.do_update(arguments)
-
-            return
+        return True
 
 
 if __name__ == "__main__":
