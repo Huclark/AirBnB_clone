@@ -18,7 +18,7 @@ class FileStorage:
     """
     __file_path = "file.json"
 
-    # Eg: __objects = {class.id : "address of BaseModel Instance"}
+    # Eg: __objects = {class.id: "address of BaseModel Instance"}
     __objects = {}
 
     # Create all available classes
