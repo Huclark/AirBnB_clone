@@ -197,22 +197,32 @@ class HBNBCommand(cmd.Cmd):
         Usage example: update <class name> <id> <attribute name>
                         <attribute value>
         """
+        # True means use shlex to split command arguments
         if self.__flag:
             argv = shlex.split(arg)
-
+        # False means construct list of arguments without shlex
         else:
+            # Get rid of commas
             line = arg.split(", ")
-            class_name, str_id = line[0].split()
+            # line = ['<class_name> <"id">', '"attribute_name"', '"attribute_value"']
+            # Retrieve the class name and id
+            class_name, obj_id = line[0].split()
+            # Create a list to contain all command arguments
             argv = []
+            # Append the class name to list
             argv.append(class_name)
-            argv.append(str_id.strip('"'))
+            # Strip the quotes off id and append to list
+            argv.append(obj_id.strip('"'))
+            # Strip the quotes off attribute name and append to list
             argv.append(line[1].strip('"'))
+            # Strip the quotes off attribute value and append to list
             argv.append(line[2].strip('"'))
-
+            # argv = [class_name, id, attribute name, attribute value]
+        # Validate the command arguments
         if self.validate_argv(argv):
             # Construct the key
             key = "{}.{}".format(argv[0], argv[1])
-            # Retrieve all objects from storage
+            # Retrieve all instances from storage
             all_instances = models.storage.all()
             # Check if instance exists
             if key not in all_instances:
@@ -228,6 +238,7 @@ class HBNBCommand(cmd.Cmd):
                 return
             # Set the new attribute in the right instance
             setattr(all_instances[key], argv[2], argv[3])
+            # Save the changes into JSON file
             all_instances[key].save()
 
     @staticmethod
