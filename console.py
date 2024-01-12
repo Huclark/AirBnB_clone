@@ -243,10 +243,22 @@ class HBNBCommand(cmd.Cmd):
 
     @staticmethod
     def number_of_instances(class_name):
+        """Counts the number of instances of a specific class
+
+        Args:
+            class_name (str): Name of class
+
+        Returns:
+            int: Number of instances of the specified class
+        """
+        # Intialise count variable to 0
         count = 0
+        # Iterate over storage dictionary
         for _, value in models.storage.all().items():
+            # If the specified class is encountered increment count
             if type(value).__name__ == class_name:
                 count += 1
+        # Return number of instances found
         return count
 
     def default(self, arg):
