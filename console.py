@@ -166,27 +166,23 @@ class HBNBCommand(cmd.Cmd):
 
         Usage Example: $ all BaseModel or $ all
         """
-        argv = shlex.split(arg)
-
-        # print all instances if no argument exists
+        # Print all instances if no argument exists
         if not arg:
             print([str(value) for _, value in models.storage.all().items()])
         else:
+            # Store various command arguments in a list
+            argv = shlex.split(arg)
             # Validate argument
-            if arg not in self.__all_classes:
+            if argv[0] not in self.__all_classes:
                 print("** class doesn't exist **")
                 return
-
-            # Retrieve all instances
+            # Create a list to contain all instances of the class
             new_list = []
-
-            # put all the target class' values in new_list
+            # Iterate over the instances dictionary
             for _, value in models.storage.all().items():
-                # class_name = key.split(".")
-                # if class_name[0] == argv[0]:
+                # If an instance is found, append to new_list
                 if argv[0] == type(value).__name__:
                     new_list.append(str(value))
-
             # print list
             print(new_list)
 
