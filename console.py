@@ -141,7 +141,7 @@ class HBNBCommand(cmd.Cmd):
         """
         # Store various command arguments in a list
         argv = shlex.split(arg)
-
+        # Validate the command arguments
         if self.validate_argv(argv):
             # Construct the key
             key = "{}.{}".format(argv[0], argv[1])
@@ -149,9 +149,12 @@ class HBNBCommand(cmd.Cmd):
             obj_data = models.storage.all()
             # Check if object exists
             if key in obj_data:
+                # Delete the object
                 del obj_data[key]
+                # Save the changes onto the JSON file
                 models.storage.save()
             else:
+                # Print error message if object does not exist
                 print("** no instance found **")
 
     def do_all(self, arg):
