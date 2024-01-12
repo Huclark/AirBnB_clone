@@ -97,17 +97,15 @@ class HBNBCommand(cmd.Cmd):
         if not argv:
             print("** class name missing **")
             return False
-
         # Handle invalid class
         if argv[0] not in self.__all_classes:
             print("** class doesn't exist **")
             return False
-
         # Handle missing id argument
         if len(argv) < 2:
             print("** instance id missing **")
             return False
-
+        # Argument is valid
         return True
 
     def do_show(self, arg):
@@ -121,16 +119,15 @@ class HBNBCommand(cmd.Cmd):
         """
         # Store various command arguments in a list
         argv = shlex.split(arg)
-
         # Validate the command arguments
         if self.validate_argv(argv):
             # Construct the key
             key = "{}.{}".format(argv[0], argv[1])
             # Retrieve all objects from storage
             obj_data = models.storage.all()
-            # 
+            # Retrieve the object using its key
             obj = obj_data.get(key)
-            # Check if object exists
+            # Check if object exists and print
             print(obj if obj else "** no instance found **")
 
     def do_destroy(self, arg):
