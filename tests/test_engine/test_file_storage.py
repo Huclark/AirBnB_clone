@@ -178,7 +178,40 @@ class TestFileStorage(unittest.TestCase):
             pass
         # Check if __objects is still empty
         self.assertEqual(self.test_storage.all(), {})
-        
+
+    def test_no_instances(self):
+        """Test save() and reload() when there are no instances
+        """
+        # Save and reload from JSON file with no instances
+        self.test_storage.all()
+        self.test_storage.reload()
+        # Check if __objects is still empty
+        self.assertEqual(self.test_storage.all(), {})
+
+    def test_duplicate_instances(self):
+        """Tests new() method for duplicate instances
+        """
+        # Create a Place instance
+        place = Place()
+        # Call new() twice on the same instance
+        self.test_storage.new(place)
+        self.test_storage.new(place)
+        # Check if there is only one instance of the same id in the
+        # __objects dictionary
+        self.assertEqual(len(self.test_storage.all()), 1)
+
+    def wrong_file_path(self):
+        """Test reload with wrong file path
+        """
+        # create a JSON file with save()
+        self.test_storage.save()
+        # Modify file path
+        self.test_storage._FileStorage__file_path = "new.json"
+        # Reload from a different file path
+        self.test_storage.reload()
+        # Check if __object is still empty
+        # since the file path was changed
+        self.assertEqual(self.test_storage.all(), {})
 
 
 if __name__ == "__main__":
