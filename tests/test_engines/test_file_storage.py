@@ -42,6 +42,14 @@ class TestFileStorage(unittest.TestCase):
         if os.path.exists("test_file.json"):
             os.remove("test_file.json")
 
+    def test_all(self):
+        """Test the all method for the FileStorage class
+        """
+        self.assertEqual(self.test_storage.all(), {})
+        self.assertIsInstance(self.test_storage.all(), dict)
+
+
+
 
 
 if __name__ == "__main__":
