@@ -205,7 +205,7 @@ class HBNBCommand(cmd.Cmd):
         else:
             # Get rid of commas
             line = arg.split(", ")
-            # line = ['<class_name> <"id">', '"attribute_name"', '"attribute_value"']
+            # line = ['<class_name> <"id">', '"attr_name"', '"attr_value"']
             # Retrieve the class name and id
             class_name, obj_id = line[0].split()
             # Create a list to contain all command arguments
@@ -307,8 +307,10 @@ class HBNBCommand(cmd.Cmd):
         if command[0] == "count":
             print(self.number_of_instances(arg[0]))
             return
-        # Check if command is show, destroy or update and has the correct syntax
-        if command[0] in ["show", "destroy", "update"] and not command[1].endswith(")"):
+        # Check if command is show, destroy or update
+        # and has the correct syntax
+        if command[0] in ["show", "destroy", "update"] and\
+                not command[1].endswith(")"):
             print("*** Unknown syntax: {}".format(line))
             return
         # Obtain the object id
@@ -326,7 +328,8 @@ class HBNBCommand(cmd.Cmd):
             # Strip ")" off the arguments string
             args = command[1].rstrip(")")
             # args = "id and other arguments"
-            # Check if args matches the pattern, "id, {} and any non-whitespace character"
+            # Check if args matches the pattern,
+            # "id, {} and any non-whitespace character"
             first_match = re.match(r'^(.*)\s*,\s*({.*})\s*(\S+)', args)
             # Check if args maatches the pattern,"id, {}"
             matchdata = re.match(r'^(.*)\s*,\s*({.*})', args)
@@ -338,19 +341,21 @@ class HBNBCommand(cmd.Cmd):
                     # Convert string representation of dictionary to a dict
                     attribute_dict = ast.literal_eval(matchdata.group(2))
                     # Iterate over dictionary of attribute names and values
-                    for attribute_name, attribute_value in attribute_dict.items():
-                        # Construct class_name and command arguments as a string
-                        arguments = arg[0] + " " + obj_id + " " + str(attribute_name) + " "\
-                            + str(attribute_value)
-                        # arguments = " class_name id attribute_name attribute_value"
+                    for attribute_name, attribute_value in\
+                            attribute_dict.items():
+                        # Construct class_name and cmd arguments as a string
+                        arguments = arg[0] + " " + obj_id + " " +\
+                            str(attribute_name) + " " + str(attribute_value)
+                        # arguments = "class_name id attr_name attr_value"
                         self.do_update(arguments)
                 except (ValueError, SyntaxError):
-                    # If literal_eval fails to return a dict, print syntax error
+                    # If literal_eval fails, print syntax error
                     print("*** Unknown syntax: {}".format(line))
             # True if args does not match the exact pattern, "id, {}"
             else:
-                # Check if there are more than 4 arguments or less than 3 arguments
-                match_a = re.match(r'^(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(\S+)', args)
+                # Check if arguments > 4 or arguments < 3
+                match_a =\
+                    re.match(r'^(.*)\s*,\s*(.*)\s*,\s*(.*)\s*,\s*(\S+)', args)
                 if match_a or len(args.split(", ")) < 3:
                     print("*** Unknown syntax: {}".format(line))
                     return
@@ -371,13 +376,14 @@ class HBNBCommand(cmd.Cmd):
             line (str): Commands and arguments from the command-line
 
         Returns:
-            bool: False if command or arguments are invalid; otherwise, it 
+            bool: False if command or arguments are invalid; otherwise, it
                   returns True
         """
         if len(command) < 2:
             return False
 
-        if command[0] not in ["all", "create", "show", "destroy", "update", "count"]:
+        if command[0] not in\
+                ["all", "create", "show", "destroy", "update", "count"]:
             return False
 
         if command[0] in ["all", "count"] and not command[1].startswith(")"):
