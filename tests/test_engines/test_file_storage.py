@@ -34,7 +34,13 @@ class TestFileStorage(unittest.TestCase):
         # modifying the actual JSON file used for the program
         self.test_storage._FileStorage__file_path = "test_file.json"
 
-
+    def tearDown(self):
+        """Clean up any resources or configurations to prepare for
+        new tests.
+        """
+        # Delete the JSON file used for the tests if it exists
+        if os.path.exists("test_file.json"):
+            os.remove("test_file.json")
 
 
 
