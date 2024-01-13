@@ -151,6 +151,16 @@ class TestFileStorage(unittest.TestCase):
         self.assertIn("State." + state.id, object_dict)
         self.assertIn("User." + user.id, object_dict)
 
+    def test_reload_nonexistent_file(self):
+        """Test if reload() does nothing if the file does not exist
+        """
+        # Delete the JSON file
+        os.remove("test_file.json")
+        # Load the saved data from the JSON file
+        self.test_storage.reload()
+        # Check if __objects is empty
+        self.assertEqual(self.test_storage.all(), {})
+
 
 if __name__ == "__main__":
     unittest.main()
