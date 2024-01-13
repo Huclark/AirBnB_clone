@@ -63,10 +63,30 @@ class TestBaseModel(unittest.TestCase):
     def test_save(self):
         """Test the save method of the BaseModel class
         """
+        # Create a BaseModel instance
         base_model = BaseModel()
+        # Retrieve original updated_at
         prev_updated_at = base_model.updated_at
+        # Save the object
         base_model.save()
+        # Compare orignal updated_at with new time
         self.assertNotEqual(prev_updated_at, base_model.updated_at)
+
+    def test_to_dict(self):
+        """Test the to_dict() method of BaseModel class
+        """
+        # Create a new instance
+        base_model = BaseModel()
+        # Create the expected dictionary
+        basemodel_dict = {
+            "id": base_model.id,
+            "created_at": base_model.created_at.isoformat(),
+            "updated_at": base_model.updated_at.isoformat(),
+            "__class__": "BaseModel",
+        }
+        # Assert the to_dict return value
+        self.assertEqual(basemodel_dict, base_model.to_dict())
+
 
 if __name__ == "__main__":
     unittest.main()
