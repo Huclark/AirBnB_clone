@@ -219,8 +219,9 @@ class TestFileStorage(unittest.TestCase):
         containing special characters
         """
         # Create an instance with attributes containing special characters
-        user = User(id="Dmi#%*2", created_at=datetime.isoformat(datetime.now()),\
-            updated_at=datetime.isoformat(datetime.now()), name="John&Doe")
+        timestamp = datetime.isoformat(datetime.now())
+        user = User(id="Dmi#%*2", created_at=timestamp,
+                    updated_at=timestamp, name="John&Doe")
         # Call new() on user
         self.test_storage.new(user)
         # Save user onto the JSON file
@@ -262,8 +263,9 @@ class TestFileStorage(unittest.TestCase):
         of instances
         """
         # Create an instance
-        user = User(id="1234", created_at=datetime.isoformat(datetime.now()),\
-            updated_at=datetime.isoformat(datetime.now()), first_name="John")
+        timestamp = datetime.isoformat(datetime.now())
+        user = User(id="1234", created_at=timestamp,
+                    updated_at=timestamp, first_name="John")
         # Call new()
         self.test_storage.new(user)
         # Save the user instance
@@ -283,8 +285,9 @@ class TestFileStorage(unittest.TestCase):
         """Test reload() and save() methods after deleting an instance
         """
         # Create an instance
-        place = Place(id="12k34", created_at=datetime.isoformat(datetime.now()),\
-            updated_at=datetime.isoformat(datetime.now()), first_name="John")
+        time = datetime.isoformat(datetime.now())
+        place = Place(id="12k34", created_at=time, updated_at=time,
+                      first_name="John")
         # Call place()
         self.test_storage.new(place)
         # Save the place instance
