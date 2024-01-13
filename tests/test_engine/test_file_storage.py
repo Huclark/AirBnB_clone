@@ -257,6 +257,45 @@ class TestFileStorage(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.test_storage.reload(None)
 
+    def test_updated_attributes(self):
+        """Test save() and reload() method by modifying the attributes
+        of instances
+        """
+        # Create an instance
+        user = User(id="1234", created_at=datetime.isoformat(datetime.now()),\
+            updated_at=datetime.isoformat(datetime.now()), first_name="John")
+        # Call new()
+        self.test_storage.new(user)
+        # Save the user instance
+        self.test_storage.save()
+        # Update the user attribute
+        user.first_name = "James"
+        # Save the change
+        self.test_storage.save()
+        # Load data from JSON file
+        self.test_storage.reload()
+        # Get the User instance from __objects
+        user_obj = self.test_storage.all()["User." + user.id]
+        # Check if the updated attribute is reflected
+        self.assertEqual(user_obj.first_name, "James")
+
+    def test_deleted_instance(self):
+        """Test reload() and save() methods after deleting an instance
+        """
+        # Create an instance
+        place = Place(id="12k34", created_at=datetime.isoformat(datetime.now()),\
+            updated_at=datetime.isoformat(datetime.now()), first_name="John")
+        # Call place()
+        self.test_storage.new(place)
+        # Save the place instance
+        self.test_storage.save()
+        # Delete the place instance and save()
+        del self.test_storage._FileStorage__objects["Place." + place.id]
+        self.test_storage.save()
+        # Reload and check if the removed instance is still absent
+        self.test_storage.reload()
+        self.assertNotIn("Place." + place.id, self.test_storage.all())
+
 
 if __name__ == "__main__":
     unittest.main()
