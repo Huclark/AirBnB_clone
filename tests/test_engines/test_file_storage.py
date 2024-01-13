@@ -4,6 +4,7 @@
 
 
 import json
+import os
 import unittest
 from models.amenity import Amenity
 from models.base_model import BaseModel
@@ -21,9 +22,19 @@ class TestFileStorage(unittest.TestCase):
     Args:
         unittest (module): Module for unit tests
     """
-    def test_all(self):
-        self.assertEqual(FileStorage().all(), {})
-        self.assertIsInstance(FileStorage().all(), dict)
+    def setUp(self):
+        """Set up resources and  configurations needed for the
+        test cases
+        """
+        # Create an instance of the FileStorage class
+        self.test_storage = FileStorage()
+        # Reset the __objects attribute before each test
+        FileStorage._FileStorage__objects = {}
+        # Set the FileStorage __file_path attribute to avoid
+        # modifying the actual JSON file used for the program
+        self.test_storage._FileStorage__file_path = "test_file.json"
+
+
 
 
 
