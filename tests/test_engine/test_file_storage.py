@@ -243,6 +243,13 @@ class TestFileStorage(unittest.TestCase):
         self.test_storage.reload()
         self.assertIn("User." + user.id, self.test_storage.all())
 
+    def test_new_args(self):
+        """Test new() method with more arguments than it takes
+        """
+        # Raise a TypeError
+        with self.assertRaises(TypeError):
+            self.test_storage.new(User(), 1)
+
 
 if __name__ == "__main__":
     unittest.main()
