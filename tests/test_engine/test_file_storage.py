@@ -229,7 +229,20 @@ class TestFileStorage(unittest.TestCase):
         self.test_storage.reload()
         self.assertIn("User.Dmi#%*2", self.test_storage.all())
 
-    
+    def test_empty_instances(self):
+        """Test save() and reload() on empty instances to ensure it
+        does not raise any errors
+        """
+        # Create a User instance
+        user = User()
+        # Call new() on user
+        self.test_storage.new(user)
+        # Save user onto the JSON file
+        self.test_storage.save()
+        # Reload and check if the instance is present
+        self.test_storage.reload()
+        self.assertIn("User." + user.id, self.test_storage.all())
+
 
 if __name__ == "__main__":
     unittest.main()
