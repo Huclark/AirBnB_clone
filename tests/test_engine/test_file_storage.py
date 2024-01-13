@@ -6,6 +6,7 @@
 import json
 import os
 import unittest
+from datetime import datetime
 from models.amenity import Amenity
 from models.base_model import BaseModel
 from models.city import City
@@ -213,6 +214,22 @@ class TestFileStorage(unittest.TestCase):
         # since the file path was changed
         self.assertEqual(self.test_storage.all(), {})
 
+    def test_special_characters(self):
+        """Test if save() can handle instances with attributes
+        containing special characters
+        """
+        # Create an instance with attributes containing special characters
+        user = User(id="Dmi#%*2", created_at=datetime.isoformat(datetime.now()),\
+            updated_at=datetime.isoformat(datetime.now()), name="John&Doe")
+        # Call new() on user
+        self.test_storage.new(user)
+        # Save user onto the JSON file
+        self.test_storage.save()
+        # Reload and check if the instance is present
+        self.test_storage.reload()
+        self.assertIn("User.Dmi#%*2", self.test_storage.all())
+
+    
 
 if __name__ == "__main__":
     unittest.main()
