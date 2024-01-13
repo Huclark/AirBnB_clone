@@ -47,8 +47,10 @@ class TestBaseModel(unittest.TestCase):
         # Validate object id
         self.assertEqual(object_data["id"], base_model.id)
         # Validate created_at and updated_at
-        self.assertEqual(datetime.fromisoformat(object_data["created_at"]), base_model.created_at)
-        self.assertEqual(datetime.fromisoformat(object_data["updated_at"]), base_model.updated_at)
+        created_at = datetime.fromisoformat(object_data["created_at"])
+        updated_at = datetime.fromisoformat(object_data["updated_at"])
+        self.assertEqual(created_at, base_model.created_at)
+        self.assertEqual(updated_at, base_model.updated_at)
         # Validate additional attributes)
         self.assertEqual(object_data["Country"], base_model.Country)
 
@@ -57,7 +59,8 @@ class TestBaseModel(unittest.TestCase):
         """
         base_model = BaseModel()
         # Construct the string representation
-        basemodel_str = "[BaseModel] ({}) {}".format(base_model.id, base_model.__dict__)
+        basemodel_str =\
+            "[BaseModel] ({}) {}".format(base_model.id, base_model.__dict__)
         self.assertEqual(basemodel_str, str(base_model))
 
     def test_save(self):
@@ -90,4 +93,3 @@ class TestBaseModel(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
-    
