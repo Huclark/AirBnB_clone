@@ -250,6 +250,13 @@ class TestFileStorage(unittest.TestCase):
         with self.assertRaises(TypeError):
             self.test_storage.new(User(), 1)
 
+    def test_reload_args(self):
+        """Test new() method with invalid argument type
+        """
+        # Raise TypeError
+        with self.assertRaises(TypeError):
+            self.test_storage.reload(None)
+
 
 if __name__ == "__main__":
     unittest.main()
