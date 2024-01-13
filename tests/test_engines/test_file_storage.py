@@ -43,7 +43,7 @@ class TestFileStorage(unittest.TestCase):
             os.remove("test_file.json")
 
     def test_all(self):
-        """Test the all method for the FileStorage class
+        """Test the all() method for the FileStorage class
         """
         # Test if all() returns an empty dictionary
         self.assertEqual(self.test_storage.all(), {})
@@ -51,7 +51,7 @@ class TestFileStorage(unittest.TestCase):
         self.assertIsInstance(self.test_storage.all(), dict)
 
     def test_new(self):
-        """Test the new method for the FileStorage class to check
+        """Test the new() method for the FileStorage class to check
         if it adds new instances of various classes to the dictionary
         """
         # Create new instances for the classes
@@ -80,6 +80,42 @@ class TestFileStorage(unittest.TestCase):
         self.assertIn("Review." + review.id, object_dict)
         self.assertIn("State." + state.id, object_dict)
         self.assertIn("User." + user.id, object_dict)
+
+    def test_save(self):
+        """Test the save() method
+        """
+        # Create new instances for the classes
+        amenity = Amenity()
+        basemodel = BaseModel()
+        city = City()
+        place = Place()
+        review = Review()
+        state = State()
+        user = User()
+        # Call the new() method on each instance
+        self.test_storage.new(amenity)
+        self.test_storage.new(basemodel)
+        self.test_storage.new(city)
+        self.test_storage.new(place)
+        self.test_storage.new(review)
+        self.test_storage.new(state)
+        self.test_storage.new(user)
+        # Dump the new instances created to the JSON file
+        self.test_storage.save()
+        # Create an empty string to store the contents of the JSON file
+        all_objects = ""
+        # Open the JSON file
+        with open("test_file.json", "r", encoding="utf-8") as file:
+            # Save the contents of the JSON file
+            all_objects = file.read()
+            # Check if IDs of all instances are present in all_objects
+            self.assertIn("Amenity." + amenity.id, all_objects)
+            self.assertIn("BaseModel." + basemodel.id, all_objects)
+            self.assertIn("City." + city.id, all_objects)
+            self.assertIn("Place." + place.id, all_objects)
+            self.assertIn("Review." + review.id, all_objects)
+            self.assertIn("State." + state.id, all_objects)
+            self.assertIn("User." + user.id, all_objects)
 
 
 if __name__ == "__main__":
