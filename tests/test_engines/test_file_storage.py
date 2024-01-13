@@ -117,6 +117,40 @@ class TestFileStorage(unittest.TestCase):
             self.assertIn("State." + state.id, all_objects)
             self.assertIn("User." + user.id, all_objects)
 
+    def test_reload(self):
+        """Test the save() method
+        """
+        # Create new instances for the classes
+        amenity = Amenity()
+        basemodel = BaseModel()
+        city = City()
+        place = Place()
+        review = Review()
+        state = State()
+        user = User()
+        # Call the new() method on each instance
+        self.test_storage.new(amenity)
+        self.test_storage.new(basemodel)
+        self.test_storage.new(city)
+        self.test_storage.new(place)
+        self.test_storage.new(review)
+        self.test_storage.new(state)
+        self.test_storage.new(user)
+        # Dump the new instances created to the JSON file
+        self.test_storage.save()
+        # Load the saved data from the JSON file
+        self.test_storage.reload()
+        # Retrieve the __object dictionary from FileStorage class
+        object_dict = self.test_storage.all()
+        # Check if IDs of all instances are present in object_dict
+        self.assertIn("Amenity." + amenity.id, object_dict)
+        self.assertIn("BaseModel." + basemodel.id, object_dict)
+        self.assertIn("City." + city.id, object_dict)
+        self.assertIn("Place." + place.id, object_dict)
+        self.assertIn("Review." + review.id, object_dict)
+        self.assertIn("State." + state.id, object_dict)
+        self.assertIn("User." + user.id, object_dict)
+
 
 if __name__ == "__main__":
     unittest.main()
