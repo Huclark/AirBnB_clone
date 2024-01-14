@@ -3,7 +3,6 @@
 """
 
 
-from console import HBNBCommand
 import io
 from io import StringIO
 from os import remove
@@ -11,6 +10,7 @@ import sys
 import unittest
 from unittest.mock import patch, create_autospec
 from uuid import UUID
+from console import HBNBCommand
 import models
 from models.base_model import BaseModel
 
