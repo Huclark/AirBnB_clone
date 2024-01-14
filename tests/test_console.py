@@ -161,7 +161,22 @@ class TestHBNBCommand(unittest.TestCase):
         # Check if each object in the list is a string
         for obj in all_output:
             self.assertIsInstance(obj, str)
-
+        # Create two more City instances to test all with arguments
+        self.assertFalse(self.console.onecmd("create City"))
+        self.assertFalse(self.console.onecmd("create City"))
+        # Clear StringIO
+        self.clear_stringio()
+        # Simulate the all method with no argument
+        self.assertFalse(self.console.onecmd("all City"))
+        # Deserialise the string representation of the list
+        all_output = json.loads(self.out.getvalue())
+        # Confirm if the output is a list
+        self.assertIsInstance(all_output, list)
+        # Confirm length of list
+        self.assertEqual(len(all_output), 3)
+        # Check if each object in the list is a string
+        for obj in all_output:
+            self.assertIsInstance(obj, str)
 
 
 if __name__ == "__main__":
