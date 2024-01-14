@@ -48,14 +48,23 @@ class TestHBNBCommand(unittest.TestCase):
             pass
         # Clear the __objects dictionary in FileStorage
         models.storage._FileStorage__objects.clear()
+        # Clear the content of the StringIO object
+        self.clear_StringIO()
 
-    def test_do_create(self, mock_stdout):
+    def clear_StringIO(self):
+        """Clears the content of the StringIO object
+        """
+        # Truncate the content of the StringIO object to 0 bytes
+        self.out.truncate(0)
+        # Set tje position of the StringIO object to the beginning
+        self.out.seek(0)
+
+    def test_do_create(self, mock_stdout, mock_stdin):
         """Test the do_Create() method
 
         Args:
             mock_stdout (StringIO): Captures and inspect printed output
         """
-        
 
 
 if __name__ == "__main__":
