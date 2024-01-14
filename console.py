@@ -76,14 +76,13 @@ class HBNBCommand(cmd.Cmd):
         # Print an error if class does not match the available classes
         if argv[0] not in self.__all_classes:
             print("** class doesn't exist **")
-        # Create a new instance and print its id.
-        else:
-            # Create a new instance of the specified class
-            new_instance = self.__all_classes[argv[0]]()
-            # Save the new instance
-            new_instance.save()
-            # Print the the instance id
-            print(new_instance.id)
+            return False
+        # Create a new instance of the specified class
+        new_instance = self.__all_classes[argv[0]]()
+        # Save the new instance
+        new_instance.save()
+        # Print the the instance id
+        print(new_instance.id)
 
     def validate_argv(self, argv):
         """Validates the command arguments and print error messages
