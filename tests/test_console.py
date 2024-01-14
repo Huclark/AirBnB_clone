@@ -77,6 +77,20 @@ class TestHBNBCommand(unittest.TestCase):
         self.assertFalse(self.console.onecmd("\n"))
         # Check if the standard output is an empty string
         self.assertEqual(self.out.getvalue(), "")
+
+    def test_do_quit(self):
+        """Tests the quit command
+        """
+        # Simulate inputting quit
+        self.assertTrue(self.console.onecmd("quit"))
+        # Simulate inputting quit with improper syntax
+        self.assertFalse(self.console.onecmd("QUIT"))
+        # Get the expected output
+        error_message = "*** Unknown syntax: QUIT\n"
+        # Assert the output
+        self.assertEqual(error_message, self.out.getvalue())
+        # Check if quit command was handled successfully
+        self.assertTrue(self.console.onecmd("quit kaks ka kascadk"))
         
 
 
