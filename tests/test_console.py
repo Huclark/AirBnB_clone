@@ -39,7 +39,15 @@ class TestHBNBCommand(unittest.TestCase):
         """Clean up any resources or configurations to prepare for
         new tests.
         """
-        
+        # Restore sys.stdout to its original value
+        sys.stdout = sys.__stdout__
+        # Remove the JSON file if it exists
+        try:
+            remove("file.json")
+        except FileNotFoundError:
+            pass
+        # Clear the __objects dictionary in FileStorage
+        models.storage._FileStorage__objects.clear()
 
     def test_do_create(self, mock_stdout):
         """Test the do_Create() method
