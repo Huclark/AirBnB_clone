@@ -10,6 +10,7 @@ from os import remove
 import sys
 import unittest
 from unittest.mock import patch, create_autospec
+from uuid import UUID
 import models
 from models.base_model import BaseModel
 
@@ -49,9 +50,9 @@ class TestHBNBCommand(unittest.TestCase):
         # Clear the __objects dictionary in FileStorage
         models.storage._FileStorage__objects.clear()
         # Clear the content of the StringIO object
-        self.clear_StringIO()
+        self.clear_stringio()
 
-    def clear_StringIO(self):
+    def clear_stringio(self):
         """Clears the content of the StringIO object
         """
         # Truncate the content of the StringIO object to 0 bytes
@@ -83,6 +84,8 @@ class TestHBNBCommand(unittest.TestCase):
         """
         # Simulate inputting quit
         self.assertTrue(self.console.onecmd("quit"))
+        # Check if anything is printed to stdout
+        self.assertEqual("", self.out.getvalue())
         # Simulate inputting quit with improper syntax
         self.assertFalse(self.console.onecmd("QUIT"))
         # Get the expected output
@@ -91,6 +94,48 @@ class TestHBNBCommand(unittest.TestCase):
         self.assertEqual(error_message, self.out.getvalue())
         # Check if quit command was handled successfully
         self.assertTrue(self.console.onecmd("quit kaks ka kascadk"))
+
+    def test_eof(self):
+        """Test EOF(Ctrl + D)
+        """
+        # Simulate an "EOF" input
+        self.assertTrue(self.console.onecmd("EOF"))
+        # Ascertain it prints a new line as output before exiting console
+        self.assertEqual(self.out.getvalue(), "\n")
+
+    def test_help(self):
+        """Test help command
+        """
+        self.assertIsNone(self.console.onecmd("help"))
+
+    def test_create(self):
+        """Test the create command
+        """
+        # Test no argument
+        self.assertFalse(self.console.onecmd("create"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** class name missing **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test invalid class
+        self.assertFalse(self.console.onecmd("create John"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** class doesn't exist **\n")
+
+        # Test if an instance is created successfully
+        # Clear StringIO object
+        self.clear_stringio()
+        # Simulate the creation of a User instance
+        self.assertIsNone(self.console.onecmd("create User"))
+        # Extract the id string form stdout and strip the \n character
+        str_id = self.out.getvalue()[:-1]
+        try:
+            # Check if the id string matches the string representation
+            # of the UUID object
+            result = str(UUID(str_id)) == str_id
+        except (ValueError, TypeError):
+            result = False
+        self.assertTrue(result)
         
 
 
