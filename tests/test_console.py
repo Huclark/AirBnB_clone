@@ -5,6 +5,7 @@
 
 import io
 from io import StringIO
+import json
 from os import remove
 import sys
 import unittest
@@ -57,7 +58,7 @@ class TestHBNBCommand(unittest.TestCase):
         """
         # Truncate the content of the StringIO object to 0 bytes
         self.out.truncate(0)
-        # Set tje position of the StringIO object to the beginning
+        # Set the position of the StringIO object to the beginning
         self.out.seek(0)
 
     # def _last_write(self, nr=None):
@@ -136,6 +137,101 @@ class TestHBNBCommand(unittest.TestCase):
         except (ValueError, TypeError):
             result = False
         self.assertTrue(result)
+        # Check if the id is of a UUID type
+        self.assertIsInstance(UUID(str_id), UUID)
+
+    def test_all(self):
+        """Test the all command
+        """
+        # Create two instances
+        self.assertFalse(self.console.onecmd("create City"))
+        self.assertFalse(self.console.onecmd("create User"))
+        # Clear StringIO
+        self.clear_stringio()
+        # Simulate the all method with no argument
+        self.assertFalse(self.console.onecmd("all"))
+        # all() prints the string representation of a list of
+        # all instances to stdout
+        # Hence, deserialise the string representation of the list
+        all_output = json.loads(self.out.getvalue())
+        # Confirm if the output is a list
+        self.assertIsInstance(all_output, list)
+        # Confirm length of list
+        self.assertEqual(len(all_output), 2)
+        # Check if each object in the list is a string
+        for obj in all_output:
+            self.assertIsInstance(obj, str)
+        # Create two more City instances to test all with arguments
+        self.assertFalse(self.console.onecmd("create City"))
+        self.assertFalse(self.console.onecmd("create City"))
+        # Clear StringIO
+        self.clear_stringio()
+        # Simulate the all method with argument
+        self.assertFalse(self.console.onecmd("all City"))
+        # Deserialise the string representation of the list
+        all_output = json.loads(self.out.getvalue())
+        # Confirm if the output is a list
+        self.assertIsInstance(all_output, list)
+        # Confirm length of list
+        self.assertEqual(len(all_output), 3)
+        # Check if each object in the list is a string
+        for obj in all_output:
+            self.assertIsInstance(obj, str)
+
+    def test_update(self):
+        """Test the update() method
+        """
+        # Test no argument
+        self.assertFalse(self.console.onecmd("update"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** class name missing **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test invalid class
+        self.assertFalse(self.console.onecmd("update John"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** class doesn't exist **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Create a City instance
+        self.assertFalse(self.console.onecmd("create City"))
+        # Extract the id string form stdout and strip the \n character
+        str_id = self.out.getvalue()[:-1]
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test missing id
+        self.assertFalse(self.console.onecmd("update City"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** instance id missing **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test if instance exists
+        self.assertFalse(self.console.onecmd("update City 1234-2444-2323-2323"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** no instance found **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test if attribute name exists
+        self.assertFalse(self.console.onecmd("update City " + str_id))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** attribute name missing **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test if attribute value exists
+        self.assertFalse(self.console.onecmd("update City " + str_id + " first_name"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** value missing **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test if instance data is updated
+        self.assertFalse(self.console.onecmd("update City " + str_id + " 'first_name' 'John'"))
+        # Clear StringIO object
+        self.clear_stringio()
+        # Simulate the all method with City as argument
+        self.assertFalse(self.console.onecmd("all City"))
+        # Check for the update
+        self.assertTrue("'first_name': 'John'" in self.out.getvalue())
+        
         
 
 
