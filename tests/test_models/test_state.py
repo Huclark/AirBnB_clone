@@ -1,16 +1,16 @@
 #!/usr/bin/python3
-""" unitest for Amenity Class
+""" unitest for State Class
 """
 
 
 from datetime import datetime
 import unittest
 import models
-from models.amenity import Amenity
+from models.state import State
 
 
-class TestAmenity(unittest.TestCase):
-    """Amenity class test cases
+class TestState(unittest.TestCase):
+    """state class test cases
 
     Args:
         unittest (module): Module for unit tests
@@ -19,11 +19,11 @@ class TestAmenity(unittest.TestCase):
     def setUp(cls) -> None:
         """set up class instance to use for test
         """
-        cls.instance = Amenity()
+        cls.instance = State()
         
     @classmethod
     def tearDownClass(cls) -> None:
-        """Destroy instance of class Amenity
+        """Destroy instance of class state
         """
         del cls.instance
     
@@ -39,7 +39,7 @@ class TestAmenity(unittest.TestCase):
         self.assertIsInstance(self.instance.updated_at, datetime)
         self.assertIsInstance(self.instance.created_at, datetime)
         # check if base_model is an instance of BaseModel
-        self.assertIsInstance(self.instance, Amenity)
+        self.assertIsInstance(self.instance, State)
         # check if base_model is a valid object __class__
         self.assertTrue(hasattr(self.instance, "__class__"))
         # check if calling new() was successful
@@ -55,7 +55,7 @@ class TestAmenity(unittest.TestCase):
             "__class__": "BaseModel",
             "Country": "Ghana"
         }
-        base_model = Amenity(**object_data)
+        base_model = State(**object_data)
         # check if base_model is a valid object __class__
         self.assertTrue(hasattr(base_model, "__class__"))
         # Validate object id
@@ -79,14 +79,14 @@ class TestAmenity(unittest.TestCase):
         check if created at used datetime class to generate
         and the created time are different
         """
-        instance2 = Amenity()
+        instance2 = State()
         self.assertLess(self.instance.created_at, instance2.created_at)
         
     def test_updated_time(self) -> None:
         """
         check if updated time of two instance created at different time
         """
-        instance2 = Amenity()
+        instance2 = State()
         self.assertLess(self.instance.updated_at, instance2.updated_at)
         
     def test_new_attribute_exist(self):
@@ -99,7 +99,7 @@ class TestAmenity(unittest.TestCase):
     def test_save_method_updated_time(self) -> None:
         """test if save method updated the updated_at attribute
         """
-        instance2 = Amenity()
+        instance2 = State()
         updated_time = instance2.updated_at
         instance2.save()
         self.assertNotEqual(updated_time, instance2.updated_at)
@@ -107,14 +107,14 @@ class TestAmenity(unittest.TestCase):
     
     def test_str(self) -> None:
         """test if str representation is overide"""
-        dict_str = f"[Amenity] ({self.instance.id}) {self.instance.__dict__}"
+        dict_str = f"[State] ({self.instance.id}) {self.instance.__dict__}"
         self.assertEqual(dict_str, str(self.instance))
         
     def test_to_method(self) -> None:
         """test to_dict method
         """
         obj_dict = self.instance.to_dict()
-        self.assertEqual(obj_dict["__class__"], "Amenity")
+        self.assertEqual(obj_dict["__class__"], "State")
         self.assertIsInstance(obj_dict["created_at"], str)
         self.assertIsInstance(obj_dict["updated_at"], str)
     
@@ -123,7 +123,7 @@ class TestAmenity(unittest.TestCase):
         """
         self.instance.save()
         with open("file.json", "r") as f:
-            self.assertIn("Amenity." + self.instance.id, f.read())
+            self.assertIn("State." + self.instance.id, f.read())
             
 
 

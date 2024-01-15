@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" unitest for Amenity Class
+""" unitest for City Class
 """
 
 
@@ -10,7 +10,7 @@ from models.city import City
 
 
 class TestCity(unittest.TestCase):
-    """Amenity class test cases
+    """City class test cases
 
     Args:
         unittest (module): Module for unit tests
