@@ -93,6 +93,7 @@ class TestCity(unittest.TestCase):
     def test_new_attribute_exist(self):
         """if name attribute exist
         """
+        self.instance.state_id = "GHNG127.0.0.1:5000"
         self.instance.name = "Huclark Solomon"
         obj_dct = self.instance.to_dict()
         self.assertIn("state_id", obj_dct)
