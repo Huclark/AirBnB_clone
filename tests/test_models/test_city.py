@@ -83,12 +83,12 @@ class TestCity(unittest.TestCase):
         instance2 = City()
         self.assertLess(self.instance.created_at, instance2.created_at)
         
-    # def test_updated_time(self) -> None:
-    #     """
-    #     check if updated time of two instance created at different time
-    #     """
-    #     instance2 = City()
-    #     self.assertLess(self.instance.updated_at, instance2.updated_at)
+    def test_updated_time(self) -> None:
+        """
+        check if updated time of two instance created at different time
+        """
+        instance2 = City()
+        self.assertLess(self.instance.updated_at, instance2.updated_at)
         
     # def test_new_attribute_exist(self):
     #     """if name attribute exist
