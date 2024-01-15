@@ -68,5 +68,27 @@ class TestAmenity(unittest.TestCase):
         # Validate additional attributes)
         self.assertEqual(object_data["Country"], base_model.Country)
         
-    def test_unused_args()-> None:
+    def test_unused_args(self) -> None:
+       """
+       check if args is unused
+       """ 
+       self.assertNotEqual(None, self.instance.__dict__.values())
+       
+    def test_created_time(self) -> None:
+        """
+        check if created at used datetime class to generate
+        and the created time are different
+        """
+        instance2 = Amenity()
+        self.assertLess(self.instance.created_at, instance2.created_at)
         
+    def test_updated_time(self) -> None:
+        """
+        check if updated time of two instance created at different time
+        """
+        instance2 = Amenity()
+        self.assertLess(self.instance.updated_at, instance2.updated_at)
+        
+    
+    if "__name__" == "__main__":
+        unittest.main()
