@@ -3,18 +3,15 @@
 """
 
 
-import io
 from io import StringIO
 import json
 from os import remove
 import sys
 import unittest
-from unittest.mock import patch, create_autospec
+from unittest.mock import create_autospec
 from uuid import UUID
 from console import HBNBCommand
 import models
-from models.base_model import BaseModel
-
 
 class TestHBNBCommand(unittest.TestCase):
     """HBNBCommand class test cases for the console
