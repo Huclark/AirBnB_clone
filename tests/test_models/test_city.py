@@ -117,7 +117,7 @@ class TestCity(unittest.TestCase):
         """test to_dict method
         """
         obj_dict = self.instance.to_dict()
-        self.assertEqual(obj_dict["__class__"], "Amenity")
+        self.assertEqual(obj_dict["__class__"], "City")
         self.assertIsInstance(obj_dict["created_at"], str)
         self.assertIsInstance(obj_dict["updated_at"], str)
     
