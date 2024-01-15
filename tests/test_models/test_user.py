@@ -6,7 +6,7 @@
 from datetime import datetime
 import unittest
 import models
-from models.state import State
+from models.user import User
 
 
 class TestState(unittest.TestCase):
@@ -19,7 +19,7 @@ class TestState(unittest.TestCase):
     def setUp(cls) -> None:
         """set up class instance to use for test
         """
-        cls.instance = State()
+        cls.instance = User()
         
     @classmethod
     def tearDownClass(cls) -> None:
@@ -28,13 +28,16 @@ class TestState(unittest.TestCase):
         del cls.instance
     
      
-    def test_Amenity_attribute(self):
+    def test_User_attribute(self):
         """
         test if the instance.id of type str
         test if the instance.name of type string
         """
         self.assertIsInstance(self.instance.id, str)
-        self.assertIsInstance(self.instance.name, str)
+        self.assertIsInstance(self.instance.email, str)
+        self.assertIsInstance(self.instance.password, str)
+        self.assertIsInstance(self.instance.first_name, str)
+        self.assertIsInstance(self.instance.last_name, str)
         # check updated_at and created_at are datetime obj
         self.assertIsInstance(self.instance.updated_at, datetime)
         self.assertIsInstance(self.instance.created_at, datetime)
@@ -55,7 +58,7 @@ class TestState(unittest.TestCase):
             "__class__": "BaseModel",
             "Country": "Ghana"
         }
-        base_model = State(**object_data)
+        base_model = User(**object_data)
         # check if base_model is a valid object __class__
         self.assertTrue(hasattr(base_model, "__class__"))
         # Validate object id
@@ -79,27 +82,33 @@ class TestState(unittest.TestCase):
         check if created at used datetime class to generate
         and the created time are different
         """
-        instance2 = State()
+        instance2 = User()
         self.assertLess(self.instance.created_at, instance2.created_at)
         
     def test_updated_time(self) -> None:
         """
         check if updated time of two instance created at different time
         """
-        instance2 = State()
+        instance2 = User()
         self.assertLess(self.instance.updated_at, instance2.updated_at)
         
     def test_new_attribute_exist(self):
         """if name attribute exist
         """
-        self.instance.name = "Huclark Solomon"
+        self.instance.email = "HuclarkSolomon@ghng.com"
+        self.instance.password = "alxhardthing"
+        self.instance.first_name = "Huclark"
+        self.instance.last_name = "Solomon"
         obj_dct = self.instance.to_dict()
-        self.assertIn("name", obj_dct)
+        self.assertIn("email", obj_dct)
+        self.assertIn("passowrd", obj_dct)
+        self.assertIn("first_name", obj_dct)
+        self.assertIn("last_name", obj_dct)
 
     def test_save_method_updated_time(self) -> None:
         """test if save method updated the updated_at attribute
         """
-        instance2 = State()
+        instance2 = User()
         updated_time = instance2.updated_at
         instance2.save()
         self.assertNotEqual(updated_time, instance2.updated_at)
@@ -107,7 +116,7 @@ class TestState(unittest.TestCase):
     
     def test_str(self) -> None:
         """test if str representation is overide"""
-        dict_str = f"[State] ({self.instance.id}) {self.instance.__dict__}"
+        dict_str = f"[User] ({self.instance.id}) {self.instance.__dict__}"
         self.assertEqual(dict_str, str(self.instance))
         
     def test_to_method(self) -> None:
