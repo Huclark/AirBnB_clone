@@ -75,7 +75,7 @@ class TestCity(unittest.TestCase):
        """ 
        self.assertNotEqual(None, self.instance.__dict__.values())
        
-    def test_created_time(self) -> Non`e:
+    def test_created_time(self) -> None:
         """
         check if created at used datetime class to generate
         and the created time are different
