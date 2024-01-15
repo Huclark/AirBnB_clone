@@ -99,14 +99,14 @@ class TestCity(unittest.TestCase):
         self.assertIn("state_id", obj_dct)
         self.assertIn("name", obj_dct)
 
-    # def test_save_method_updated_time(self) -> None:
-    #     """test if save method updated the updated_at attribute
-    #     """
-    #     instance2 = City()
-    #     updated_time = instance2.updated_at
-    #     instance2.save()
-    #     self.assertNotEqual(updated_time, instance2.updated_at)
-    #     self.assertLess(updated_time, instance2.updated_at)
+    def test_save_method_updated_time(self) -> None:
+        """test if save method updated the updated_at attribute
+        """
+        instance2 = City()
+        updated_time = instance2.updated_at
+        instance2.save()
+        self.assertNotEqual(updated_time, instance2.updated_at)
+        self.assertLess(updated_time, instance2.updated_at)
     
     # def test_str(self) -> None:
     #     """test if str representation is overide"""
