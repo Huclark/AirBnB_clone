@@ -67,3 +67,6 @@ class TestAmenity(unittest.TestCase):
         self.assertEqual(updated_at, base_model.updated_at)
         # Validate additional attributes)
         self.assertEqual(object_data["Country"], base_model.Country)
+        
+    def test_unused_args()-> None:
+        
