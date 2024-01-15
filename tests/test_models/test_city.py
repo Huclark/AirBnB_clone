@@ -108,10 +108,10 @@ class TestCity(unittest.TestCase):
         self.assertNotEqual(updated_time, instance2.updated_at)
         self.assertLess(updated_time, instance2.updated_at)
     
-    # def test_str(self) -> None:
-    #     """test if str representation is overide"""
-    #     dict_str = f"[Amenity] ({self.instance.id}) {self.instance.__dict__}"
-    #     self.assertEqual(dict_str, str(self.instance))
+    def test_str(self) -> None:
+        """test if str representation is overide"""
+        dict_str = f"[Amenity] ({self.instance.id}) {self.instance.__dict__}"
+        self.assertEqual(dict_str, str(self.instance))
         
     # def test_to_method(self) -> None:
     #     """test to_dict method
