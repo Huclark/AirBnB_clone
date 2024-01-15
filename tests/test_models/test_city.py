@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" unitest for City Class
+""" unittest for City Class
 """
 
 
@@ -15,23 +15,19 @@ class TestCity(unittest.TestCase):
     Args:
         unittest (module): Module for unit tests
     """
-    @classmethod
-    def setUp(cls) -> None:
+    def setUp(self):
         """set up class instance to use for test
         """
-        cls.instance = City()
-        
-    @classmethod
-    def tearDownClass(cls) -> None:
-        """Destroy instance of class Amenity
+        self.instance = City()
+
+    def tearDown(self):
+        """Destroy instance of class City
         """
-        del cls.instance
-    
-     
-    def test_Amenity_attribute(self):
+        del self.instance
+
+    def test_city_attribute(self):
         """
-        test if the instance.id of type str
-        test if the instance.name of type string
+        Test class attributes
         """
         self.assertIsInstance(self.instance.id, str)
         self.assertIsInstance(self.instance.name, str)
@@ -39,36 +35,36 @@ class TestCity(unittest.TestCase):
         # check updated_at and created_at are datetime obj
         self.assertIsInstance(self.instance.updated_at, datetime)
         self.assertIsInstance(self.instance.created_at, datetime)
-        # check if base_model is an instance of BaseModel
+        # check if city is an instance of City
         self.assertIsInstance(self.instance, City)
-        # check if base_model is a valid object __class__
+        # check if city is a valid object __class__
         self.assertTrue(hasattr(self.instance, "__class__"))
         # check if calling new() was successful
         self.assertIn(self.instance, models.storage.all().values())
 
-    def test_amenity_kwargs(self):
-        """Test initialization of BaseModel with kwargs
+    def test_city_kwargs(self):
+        """Test initialization of City with kwargs
         """
         object_data = {
             "id": "1234-1234-1234-123a",
             "created_at": datetime.isoformat(datetime.now()),
             "updated_at": datetime.isoformat(datetime.now()),
-            "__class__": "BaseModel",
+            "__class__": "City",
             "Country": "Ghana"
         }
-        base_model = City(**object_data)
-        # check if base_model is a valid object __class__
-        self.assertTrue(hasattr(base_model, "__class__"))
+        city = City(**object_data)
+        # check if city is a valid object __class__
+        self.assertTrue(hasattr(city, "__class__"))
         # Validate object id
-        self.assertEqual(object_data["id"], base_model.id)
+        self.assertEqual(object_data["id"], city.id)
         # Validate created_at and updated_at
         created_at = datetime.fromisoformat(object_data["created_at"])
         updated_at = datetime.fromisoformat(object_data["updated_at"])
-        self.assertEqual(created_at, base_model.created_at)
-        self.assertEqual(updated_at, base_model.updated_at)
+        self.assertEqual(created_at, city.created_at)
+        self.assertEqual(updated_at, city.updated_at)
         # Validate additional attributes)
-        self.assertEqual(object_data["Country"], base_model.Country)
-        
+        self.assertEqual(object_data["Country"], city.Country)
+
     def test_unused_args(self) -> None:
        """
        check if args is unused
@@ -120,15 +116,14 @@ class TestCity(unittest.TestCase):
         self.assertEqual(obj_dict["__class__"], "City")
         self.assertIsInstance(obj_dict["created_at"], str)
         self.assertIsInstance(obj_dict["updated_at"], str)
-    
+
     def test_updated_file(self) -> None:
         """test if the file is updated
         """
         self.instance.save()
-        with open("file.json", "r") as f:
+        with open("file.json", "r", encoding="utf-8") as f:
             self.assertIn("City." + self.instance.id, f.read())
-            
 
 
-if "__name__" == "__main__":
-     unittest.main()
+if __name__ == "__main__":
+    unittest.main()
