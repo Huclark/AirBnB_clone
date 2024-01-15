@@ -33,15 +33,15 @@ class TestFileStorage(unittest.TestCase):
         FileStorage._FileStorage__objects = {}
         # Set the FileStorage __file_path attribute to avoid
         # modifying the actual JSON file used for the program
-        self.test_storage._FileStorage__file_path = "test_file.json"
+        self.test_storage._FileStorage__file_path = "file.json"
 
     def tearDown(self):
         """Clean up any resources or configurations to prepare for
         new tests.
         """
         # Delete the JSON file used for the tests if it exists
-        if os.path.exists("test_file.json"):
-            os.remove("test_file.json")
+        if os.path.exists("file.json"):
+            os.remove("file.json")
 
     def test_all(self):
         """Test the all() method for the FileStorage class
@@ -106,7 +106,7 @@ class TestFileStorage(unittest.TestCase):
         # Create an empty string to store the contents of the JSON file
         all_objects = ""
         # Open the JSON file
-        with open("test_file.json", "r", encoding="utf-8") as file:
+        with open("file.json", "r", encoding="utf-8") as file:
             # Save the contents of the JSON file
             all_objects = file.read()
             # Check if IDs of all instances are present in all_objects
@@ -158,7 +158,7 @@ class TestFileStorage(unittest.TestCase):
         # Call save to create the JSON file
         self.test_storage.save()
         # Delete the JSON file
-        os.remove("test_file.json")
+        os.remove("file.json")
         # Try to load the saved data from the JSON file
         self.test_storage.reload()
         # Check if __objects is empty
@@ -169,7 +169,7 @@ class TestFileStorage(unittest.TestCase):
         invalid format
         """
         # Open a JSON file
-        with open("test_file.json", "w", encoding="utf-8") as file:
+        with open("file.json", "w", encoding="utf-8") as file:
             # Create an invalid JSON format in the JSON file
             file.write("Trying to create an invalid JSON file")
         try:
