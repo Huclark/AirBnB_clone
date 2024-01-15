@@ -113,13 +113,13 @@ class TestCity(unittest.TestCase):
         dict_str = f"[City] ({self.instance.id}) {self.instance.__dict__}"
         self.assertEqual(dict_str, str(self.instance))
         
-    # def test_to_method(self) -> None:
-    #     """test to_dict method
-    #     """
-    #     obj_dict = self.instance.to_dict()
-    #     self.assertEqual(obj_dict["__class__"], "Amenity")
-    #     self.assertIsInstance(obj_dict["created_at"], str)
-    #     self.assertIsInstance(obj_dict["updated_at"], str)
+    def test_to_method(self) -> None:
+        """test to_dict method
+        """
+        obj_dict = self.instance.to_dict()
+        self.assertEqual(obj_dict["__class__"], "Amenity")
+        self.assertIsInstance(obj_dict["created_at"], str)
+        self.assertIsInstance(obj_dict["updated_at"], str)
     
     # def test_updated_file(self) -> None:
     #     """test if the file is updated
