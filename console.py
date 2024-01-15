@@ -317,16 +317,16 @@ class HBNBCommand(cmd.Cmd):
         object_id = command[1].split(")", 1)
         # Execute do_show if command is "show"
         if command[0] == "show":
-            if len(object_id) > 1:
-                print("*** Unknown syntax: {}".format(line))
-                return
+            # if len(object_id) > 1:
+            #     print("*** Unknown syntax: {}".format(line))
+            #     return
             self.do_show(arg[0] + " " + object_id[0])
             return
         # Execute do_destroy if command is "destroy"
         if command[0] == "destroy":
-            if len(object_id) > 1:
-                print("*** Unknown syntax: {}".format(line))
-                return
+            # if len(object_id) > 1:
+            #     print("*** Unknown syntax: {}".format(line))
+            #     return
             self.do_destroy(arg[0] + " " + object_id[0])
             return
         # Execute do_update if command is "update"
