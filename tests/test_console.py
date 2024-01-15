@@ -30,7 +30,8 @@ class TestHBNBCommand(unittest.TestCase):
         self.mock_stdin = create_autospec(sys.stdin)
         self.mock_stdout = create_autospec(sys.stdout)
         # Create an instance of the HBNBCommand class
-        self.console = HBNBCommand(stdin=self.mock_stdin, stdout=self.mock_stdout)
+        self.console =\
+            HBNBCommand(stdin=self.mock_stdin, stdout=self.mock_stdout)
         # Redirect sys.stdout to StringIO()
         self.out = StringIO()
         sys.stdout = self.out
@@ -72,8 +73,8 @@ class TestHBNBCommand(unittest.TestCase):
         """Tests for an empty command (empty string or newline character)
 
         Note: onecmd() returns True for successful handling and False otherwise
-              In this case, an empty command should not be handled successfully,
-              so the expectation is False
+              In this case, an empty command should not be handled
+              successfully, so the expectation is False
         """
         # Simulate pressing the enter key with no input
         self.assertFalse(self.console.onecmd("\n"))
@@ -206,7 +207,7 @@ class TestHBNBCommand(unittest.TestCase):
         # Clear StringIO object
         self.clear_stringio()
         # Test if instance exists
-        self.assertFalse(self.console.onecmd("update City 1234-2444-2323-2323"))
+        self.assertFalse(self.console.onecmd("update City 1234-24442323"))
         # Check error message
         self.assertEqual(self.out.getvalue(), "** no instance found **\n")
         # Clear StringIO object
@@ -218,13 +219,14 @@ class TestHBNBCommand(unittest.TestCase):
         # Clear StringIO object
         self.clear_stringio()
         # Test if attribute value exists
-        self.assertFalse(self.console.onecmd("update City " + str_id + " first_name"))
+        self.assertFalse(self.console.onecmd("update City " + str_id + " red"))
         # Check error message
         self.assertEqual(self.out.getvalue(), "** value missing **\n")
         # Clear StringIO object
         self.clear_stringio()
         # Test if instance data is updated
-        self.assertFalse(self.console.onecmd("update City " + str_id + " 'first_name' 'John'"))
+        input_ = "update City " + str_id + " 'first_name' 'John'"
+        self.assertFalse(self.console.onecmd(input_))
         # Clear StringIO object
         self.clear_stringio()
         # Simulate the all method with City as argument
@@ -244,7 +246,8 @@ class TestHBNBCommand(unittest.TestCase):
         # Test improper syntax for dictionary argument
         user_input = "City.update(" + str_id + " {'name': 'John')"
         self.assertIsNone(self.console.onecmd(user_input))
-        self.assertEqual(self.out.getvalue(), "*** Unknown syntax: " + user_input + "\n")
+        error_msg = "*** Unknown syntax: " + user_input + "\n"
+        self.assertEqual(self.out.getvalue(), error_msg)
         # Clear String_IO object
         self.clear_stringio()
         # Test too many arguments (dictionary method)
@@ -258,11 +261,13 @@ class TestHBNBCommand(unittest.TestCase):
         self.assertTrue("{'name': 'John'}" in self.out.getvalue())
         self.clear_stringio()
         # Construct user input
-        user_input = "City.update(" + str_id + " {'name': 'John', 1: 'ball'} " + "JohnDoe"
+        user_input = "City.update(" + str_id +\
+            " {'name': 'John', 1: 'ball'} " + "JohnDoe"
         # Simulate command
         self.assertIsNone(self.console.onecmd(user_input))
         # Check output
-        self.assertEqual(self.out.getvalue(), "*** Unknown syntax: " + user_input + "\n")
+        error_msg = "*** Unknown syntax: " + user_input + "\n"
+        self.assertEqual(self.out.getvalue(), error_msg)
 
     def test_count(self):
         """Tests the count command
@@ -281,6 +286,118 @@ class TestHBNBCommand(unittest.TestCase):
         no_of_instances = json.loads(self.out.getvalue())
         # Ascertain number of City instances
         self.assertEqual(no_of_instances, 3)
+
+    def test_show(self):
+        """Test show command
+        """
+        # Test no argument
+        self.assertFalse(self.console.onecmd("show"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** class name missing **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test invalid class
+        self.assertFalse(self.console.onecmd("show John"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** class doesn't exist **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Create a City instance
+        self.assertFalse(self.console.onecmd("create City"))
+        # Extract the id string form stdout and strip the \n character
+        str_id = self.out.getvalue()[:-1]
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test missing id
+        self.assertFalse(self.console.onecmd("show City"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** instance id missing **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test if instance exists
+        self.assertFalse(self.console.onecmd("show City 1234-2444-2323-2323"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** no instance found **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Clear StringIO
+        self.clear_stringio()
+        # Simulate the show method with argument
+        self.assertIsNone(self.console.onecmd("show City " + str_id))
+        # Confirm if the output contains the City id
+        self.assertTrue(str_id in self.out.getvalue())
+        # Clear String_IO object
+        self.clear_stringio()
+        # Test improper syntax for dictionary argument
+        user_input = "City.show(" + str_id + " {'name': 'John')"
+        self.assertIsNone(self.console.onecmd(user_input))
+        error_msg = "*** Unknown syntax: " + user_input + "\n"
+        self.assertEqual(self.out.getvalue(), error_msg)
+        # Clear String_IO object
+        self.clear_stringio()
+        # Test too many arguments (dictionary method)
+        # Construct user input
+        user_input = "City.show(" + str_id + ")"
+        # Simulate command
+        self.assertIsNone(self.console.onecmd(user_input))
+        # Confirm if the output contains the City id
+        self.assertTrue(str_id in self.out.getvalue())
+
+    def test_destroy(self):
+        """Test destroy method
+        """
+        # Test no argument
+        self.assertFalse(self.console.onecmd("destroy"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** class name missing **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test invalid class
+        self.assertFalse(self.console.onecmd("destroy John"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** class doesn't exist **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Create a City instance
+        self.assertFalse(self.console.onecmd("create City"))
+        # Extract the id string form stdout and strip the \n character
+        str_id = self.out.getvalue()[:-1]
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test missing id
+        self.assertFalse(self.console.onecmd("destroy City"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** instance id missing **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Test if instance exists
+        self.assertFalse(self.console.onecmd("destroy City 1234-244-2323"))
+        # Check error message
+        self.assertEqual(self.out.getvalue(), "** no instance found **\n")
+        # Clear StringIO object
+        self.clear_stringio()
+        # Clear StringIO
+        self.clear_stringio()
+        # Simulate the show method with argument
+        self.assertIsNone(self.console.onecmd("destroy City " + str_id))
+        # Confirm if the output contains the City id
+        self.assertTrue(str_id not in self.out.getvalue())
+        # Clear String_IO object
+        self.clear_stringio()
+        # Test improper syntax for dictionary argument
+        user_input = "City.destroy(" + str_id + " {'name': 'John')"
+        self.assertIsNone(self.console.onecmd(user_input))
+        error_msg = "*** Unknown syntax: " + user_input + "\n"
+        self.assertEqual(self.out.getvalue(), error_msg)
+        # Clear String_IO object
+        self.clear_stringio()
+        # Test too many arguments (dictionary method)
+        # Construct user input
+        user_input = "City.destroy(" + str_id + ")"
+        # Simulate command
+        self.assertIsNone(self.console.onecmd(user_input))
+        # Confirm if the output contains the City id
+        self.assertTrue(str_id in self.out.getvalue())
 
 
 if __name__ == "__main__":
