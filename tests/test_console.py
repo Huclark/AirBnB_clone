@@ -59,13 +59,6 @@ class TestHBNBCommand(unittest.TestCase):
         # Set the position of the StringIO object to the beginning
         self.out.seek(0)
 
-    # def _last_write(self, nr=None):
-    #     """:return: last `n` output lines"""
-    #     if nr is None:
-    #         return self.mock_stdout.write.call_args[0][0]
-    #     return "".join(map(lambda c: c[0][0],
-    #                        self.mock_stdout.write.call_args_list[-nr:]))
-
     def test_enter_with_noinput(self):
         """Tests for an empty command (empty string or newline character)
 
