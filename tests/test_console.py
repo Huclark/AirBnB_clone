@@ -263,7 +263,7 @@ class TestHBNBCommand(unittest.TestCase):
         self.assertIsNone(self.console.onecmd(user_input))
         # Check output
         self.assertEqual(self.out.getvalue(), "*** Unknown syntax: " + user_input + "\n")
-        
+
     def test_count(self):
         """Tests the count command
         """
