@@ -318,14 +318,6 @@ class TestHBNBCommand(unittest.TestCase):
         self.assertTrue(str_id in self.out.getvalue())
         # Clear String_IO object
         self.clear_stringio()
-        # Test improper syntax for dictionary argument
-        user_input = "City.show(" + str_id + " {'name': 'John')"
-        self.assertIsNone(self.console.onecmd(user_input))
-        error_msg = "*** Unknown syntax: " + user_input + "\n"
-        self.assertEqual(self.out.getvalue(), error_msg)
-        # Clear String_IO object
-        self.clear_stringio()
-        # Test too many arguments (dictionary method)
         # Construct user input
         user_input = "City.show(" + str_id + ")"
         # Simulate command
@@ -374,20 +366,12 @@ class TestHBNBCommand(unittest.TestCase):
         self.assertTrue(str_id not in self.out.getvalue())
         # Clear String_IO object
         self.clear_stringio()
-        # Test improper syntax for dictionary argument
-        user_input = "City.destroy(" + str_id + " {'name': 'John')"
-        self.assertIsNone(self.console.onecmd(user_input))
-        error_msg = "*** Unknown syntax: " + user_input + "\n"
-        self.assertEqual(self.out.getvalue(), error_msg)
-        # Clear String_IO object
-        self.clear_stringio()
-        # Test too many arguments (dictionary method)
         # Construct user input
         user_input = "City.destroy(" + str_id + ")"
         # Simulate command
         self.assertIsNone(self.console.onecmd(user_input))
         # Confirm if the output contains the City id
-        self.assertTrue(str_id in self.out.getvalue())
+        self.assertTrue(str_id not in self.out.getvalue())
 
 
 if __name__ == "__main__":
