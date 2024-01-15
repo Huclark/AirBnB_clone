@@ -93,9 +93,22 @@ class TestAmenity(unittest.TestCase):
         """if name attribute exist
         """
         self.instance.name = "Huclark Solomon"
-        obj_idct = self.instance.to_dict()
+        obj_dct = self.instance.to_dict()
+        self.assertIn("name", obj_dct)
+
+    def test_str(self) -> None:
+        """test if str representation is overide"""
+        dict_str = f"[Amenity] ({self.instance.id}) {self.instance.__dict__}"
+        self.assertEqual(dict_str, str(self.instance))
         
-    
+    def test_to_method(self) -> None:
+        """test to_dict method
+        """
+        obj_dict = self.instance.to_dict()
+        self.assertEqual(obj_dict["__class__"], "Amenity")
+        self.assertIsInstance(obj_dict["created_at"], str)
+        self.assertIsInstance(obj_dict["updated_at"], str)
+        
 
 if "__name__" == "__main__":
      unittest.main()
