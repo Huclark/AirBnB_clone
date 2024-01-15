@@ -121,12 +121,12 @@ class TestCity(unittest.TestCase):
         self.assertIsInstance(obj_dict["created_at"], str)
         self.assertIsInstance(obj_dict["updated_at"], str)
     
-    # def test_updated_file(self) -> None:
-    #     """test if the file is updated
-    #     """
-    #     self.instance.save()
-    #     with open("file.json", "r") as f:
-    #         self.assertIn("Amenity." + self.instance.id, f.read())
+    def test_updated_file(self) -> None:
+        """test if the file is updated
+        """
+        self.instance.save()
+        with open("file.json", "r") as f:
+            self.assertIn("City." + self.instance.id, f.read())
             
 
 
