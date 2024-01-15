@@ -69,11 +69,11 @@ class TestCity(unittest.TestCase):
         # Validate additional attributes)
         self.assertEqual(object_data["Country"], base_model.Country)
         
-    # def test_unused_args(self) -> None:
-    #    """
-    #    check if args is unused
-    #    """ 
-    #    self.assertNotEqual(None, self.instance.__dict__.values())
+    def test_unused_args(self) -> None:
+       """
+       check if args is unused
+       """ 
+       self.assertNotEqual(None, self.instance.__dict__.values())
        
     # def test_created_time(self) -> Non`e:
     #     """
