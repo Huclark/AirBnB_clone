@@ -90,12 +90,13 @@ class TestCity(unittest.TestCase):
         instance2 = City()
         self.assertLess(self.instance.updated_at, instance2.updated_at)
         
-    # def test_new_attribute_exist(self):
-    #     """if name attribute exist
-    #     """
-    #     self.instance.name = "Huclark Solomon"
-    #     obj_dct = self.instance.to_dict()
-    #     self.assertIn("name", obj_dct)
+    def test_new_attribute_exist(self):
+        """if name attribute exist
+        """
+        self.instance.name = "Huclark Solomon"
+        obj_dct = self.instance.to_dict()
+        self.assertIn("state_id", obj_dct)
+        self.assertIn("name", obj_dct)
 
     # def test_save_method_updated_time(self) -> None:
     #     """test if save method updated the updated_at attribute
