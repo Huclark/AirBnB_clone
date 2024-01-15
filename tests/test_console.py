@@ -231,8 +231,56 @@ class TestHBNBCommand(unittest.TestCase):
         self.assertFalse(self.console.onecmd("all City"))
         # Check for the update
         self.assertTrue("'first_name': 'John'" in self.out.getvalue())
+
+    def test_update_alt_syntax(self):
+        """Test the alternative syntax for update command
+        """
+        # Create a City instance
+        self.assertFalse(self.console.onecmd("create City"))
+        # Extract the id string form stdout and strip the \n character
+        str_id = self.out.getvalue()[:-1]
+        # Clear String_IO object
+        self.clear_stringio()
+        # Test improper syntax for dictionary argument
+        user_input = "City.update(" + str_id + " {'name': 'John')"
+        self.assertIsNone(self.console.onecmd(user_input))
+        self.assertEqual(self.out.getvalue(), "*** Unknown syntax: " + user_input + "\n")
+        # Clear String_IO object
+        self.clear_stringio()
+        # Test too many arguments (dictionary method)
+        # Construct user input
+        user_input = "City.update(" + str_id + " {'name': 'John'} " + "JohnDoe"
+        # Simulate command
+        self.assertIsNone(self.console.onecmd(user_input))
+        # Print out all City instances
+        self.assertIsNone(self.console.onecmd("all City"))
+        # Check if attribute name is in output
+        self.assertTrue("{'name': 'John'}" in self.out.getvalue())
+        self.clear_stringio()
+        # Construct user input
+        user_input = "City.update(" + str_id + " {'name': 'John', 1: 'ball'} " + "JohnDoe"
+        # Simulate command
+        self.assertIsNone(self.console.onecmd(user_input))
+        # Check output
+        self.assertEqual(self.out.getvalue(), "*** Unknown syntax: " + user_input + "\n")
         
-        
+    def test_count(self):
+        """Tests the count command
+        """
+        # Create the instances
+        self.assertFalse(self.console.onecmd("create City"))
+        self.assertFalse(self.console.onecmd("create City"))
+        self.assertFalse(self.console.onecmd("create City"))
+        self.assertFalse(self.console.onecmd("create Amenity"))
+        self.assertFalse(self.console.onecmd("create Place"))
+        # Clear String_IO object
+        self.clear_stringio()
+        # Print number of instances
+        self.assertIsNone(self.console.onecmd("City.count()"))
+        # Deserialize the string representation of number
+        no_of_instances = json.loads(self.out.getvalue())
+        # Ascertain number of City instances
+        self.assertEqual(no_of_instances, 3)
 
 
 if __name__ == "__main__":

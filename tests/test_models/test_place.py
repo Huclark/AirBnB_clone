@@ -71,7 +71,7 @@ class TestState(unittest.TestCase):
     def test_unused_args(self) -> None:
        """
        check if args is unused
-       """ 
+       """
        self.assertNotEqual(None, self.instance.__dict__.values())
        
     def test_created_time(self) -> None:
