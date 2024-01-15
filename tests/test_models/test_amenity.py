@@ -89,6 +89,13 @@ class TestAmenity(unittest.TestCase):
         instance2 = Amenity()
         self.assertLess(self.instance.updated_at, instance2.updated_at)
         
+    def test_new_attribute_exist(self):
+        """if name attribute exist
+        """
+        self.instance.name = "Huclark Solomon"
+        obj_idct = self.instance.to_dict()
+        
     
-    if "__name__" == "__main__":
-        unittest.main()
+
+if "__name__" == "__main__":
+     unittest.main()
