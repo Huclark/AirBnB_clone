@@ -75,13 +75,13 @@ class TestCity(unittest.TestCase):
        """ 
        self.assertNotEqual(None, self.instance.__dict__.values())
        
-    # def test_created_time(self) -> Non`e:
-    #     """
-    #     check if created at used datetime class to generate
-    #     and the created time are different
-    #     """
-    #     instance2 = City()
-    #     self.assertLess(self.instance.created_at, instance2.created_at)
+    def test_created_time(self) -> Non`e:
+        """
+        check if created at used datetime class to generate
+        and the created time are different
+        """
+        instance2 = City()
+        self.assertLess(self.instance.created_at, instance2.created_at)
         
     # def test_updated_time(self) -> None:
     #     """
