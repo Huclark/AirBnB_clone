@@ -25,7 +25,6 @@ class TestUser(unittest.TestCase):
         """
         del self.instance
 
-
     def test_user_attribute(self):
         """
         Test User class attributes
