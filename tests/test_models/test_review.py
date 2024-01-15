@@ -25,7 +25,6 @@ class TestReview(unittest.TestCase):
         """
         del self.instance
 
-
     def test_review_attribute(self):
         """
         Test the Review class attributes
