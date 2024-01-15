@@ -13,6 +13,7 @@ from uuid import UUID
 from console import HBNBCommand
 import models
 
+
 class TestHBNBCommand(unittest.TestCase):
     """HBNBCommand class test cases for the console
 
