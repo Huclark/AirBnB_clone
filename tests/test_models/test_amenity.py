@@ -108,7 +108,13 @@ class TestAmenity(unittest.TestCase):
         self.assertEqual(obj_dict["__class__"], "Amenity")
         self.assertIsInstance(obj_dict["created_at"], str)
         self.assertIsInstance(obj_dict["updated_at"], str)
-        
+    
+    def test_updated_file(self) -> None:
+        """test if the file is updated
+        """
+        self.instance.save()
+        with open("file.json", "r") as f:
+            self.assertIn("Amenity." + self.instance.id, f.read())
 
 if "__name__" == "__main__":
      unittest.main()
