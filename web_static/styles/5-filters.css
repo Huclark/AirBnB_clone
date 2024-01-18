@@ -8,7 +8,7 @@
 	flex-direction: row-reverse;
 	align-items: center;
 	position: relative;
-	justify-content: space-evenly;
+	justify-content: flex-end;
 }
 
 button {
@@ -38,8 +38,15 @@ button:hover {
 	justify-content: center;
 }
 
+.amenities {
+	margin-right: auto;
+	margin-left: 0px;
+}
+
 .locations {
 	border-right: 1px solid #DDDDDD;
+	margin-right: auto;
+	margin-left: auto;
 }
 
 h3 {
