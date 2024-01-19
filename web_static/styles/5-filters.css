@@ -40,13 +40,13 @@ button:hover {
 
 .amenities {
 	margin-right: auto;
-	margin-left: 0px;
+	margin-left: 60px;
 }
 
 .locations {
 	border-right: 1px solid #DDDDDD;
-	margin-right: auto;
-	margin-left: auto;
+	/* margin-right: auto;*/
+	margin-left: 60px;
 }
 
 h3 {
