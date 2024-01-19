@@ -80,12 +80,13 @@ h4 {
 
 .amenities .popover {
 	padding: 40px 0 40px 60px;
+	position: absolute;
 }
 
 .locations .popover {
 	align-items: center;
 	padding-top: 5px;
-	padding-bottom: 60px;
+	padding-bottom: 50px;
 	position: absolute;
 }
 
@@ -107,4 +108,34 @@ h4 {
 
 .cities {
 	padding-left: 20px;
+}
+
+@media screen and (max-width: 1000px) {
+  .locations .popover,
+  .amenities .popover {
+    width: 100%; /* Adjust the width for smaller screens */
+  }
+
+	.locations .popover {
+		left: 0;
+		width: calc(100% + 20px);
+		margin-left: -60px; /* Remove the margin on smaller screens */
+		padding-top: 18px;
+		padding-bottom: 40px;
+	}
+
+  .amenities .popover {
+		left: 0;
+    margin-left: -62px; /* Remove margin for amenities popover */
+		padding-left: 60px;
+  }
+
+  .popover h2 {
+    font-size: 14px; /* Adjust font size for smaller screens */
+    padding-top: 10px; /* Adjust padding for smaller screens */
+  }
+
+  .popover ul {
+    padding-left: 20px; /* Adjust padding for list items */
+  }
 }
