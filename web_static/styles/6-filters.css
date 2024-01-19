@@ -1,0 +1,110 @@
+/* Styling for section filters */
+.filters {
+	background-color: white;
+	height: 70px;
+	width: 100%;
+	border: 1px solid #DDDDDD;
+	border-radius: 4px;
+	display: flex;
+	flex-direction: row-reverse;
+	align-items: center;
+	position: relative;
+	justify-content: flex-end;
+	cursor: pointer;
+}
+/* Filters button */
+.filters button {
+	font-size: 18px;
+	background-color: #FF5A5F;
+	color: #FFFFFF;
+	height: 48px;
+	width: 20%;
+	border: 0px;
+	border-radius: 4px;
+	margin-right: 30px;
+	transition: opacity 0.3s ease, cursor 0.3s ease;
+}
+
+.filters button:hover {
+	opacity: 0.9;
+	cursor: pointer;
+}
+/* For States and Amenities */
+.locations,
+.amenities {
+	height: 100%;
+	width: 25%;
+	align-items: flex-start;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	position: relative;
+}
+
+.amenities {
+	margin-right: auto;
+	margin-left: 60px;
+}
+
+.locations {
+	border-right: 1px solid #DDDDDD;
+	margin-left: 60px;
+	display: flex;
+	flex-direction: column;
+}
+
+h3 {
+	font-weight: 600;
+	margin: 0;
+}
+
+h4 {
+	font-weight: 400;
+	font-size: 14px;
+	margin: 0;
+}
+
+.popover {
+	display: none;
+	background-color: #FAFAFA;
+	width: 270px;
+	border: 1px solid #DDDDDD;
+	border-radius: 4px;
+	list-style: none;
+	position: absolute;
+	top: 100%;
+	left: -24.5%;
+	margin: 0;
+	padding-bottom: 20px;
+}
+
+.amenities .popover {
+	padding: 40px 0 40px 60px;
+}
+
+.locations .popover {
+	align-items: center;
+	padding-top: 5px;
+	padding-bottom: 60px;
+	position: absolute;
+}
+
+.locations:hover .popover,
+.amenities:hover .popover {
+	display: block;
+}
+
+.popover h2 {
+	font-size: 16px;
+	margin-bottom: 0;
+	padding-top: 20px;
+}
+
+.popover ul {
+	list-style: none;
+	margin: 0;
+}
+
+.cities {
+	padding-left: 20px;
+}
