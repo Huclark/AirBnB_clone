@@ -119,14 +119,14 @@ h4 {
 	.locations .popover {
 		left: 0;
 		width: calc(100% + 20px);
-		margin-left: -60px; /* Remove the margin on smaller screens */
+		margin-left: -60px; /* Reduce the margin on smaller screens */
 		padding-top: 18px;
 		padding-bottom: 40px;
 	}
 
   .amenities .popover {
 		left: 0;
-    margin-left: -62px; /* Remove margin for amenities popover */
+    margin-left: -62px; /* Reduce margin for amenities popover */
 		padding-left: 60px;
   }
 
