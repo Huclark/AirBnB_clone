@@ -1,3 +1,4 @@
+/* Styling for section filters */
 .filters {
 	background-color: white;
 	height: 70px;
@@ -10,8 +11,8 @@
 	position: relative;
 	justify-content: flex-end;
 }
-
-button {
+/* Filters button */
+.filters button {
 	font-size: 18px;
 	background-color: #FF5A5F;
 	color: #FFFFFF;
@@ -23,11 +24,12 @@ button {
 	transition: opacity 0.3s ease, cursor 0.3s ease;
 }
 
-button:hover {
+.filters button:hover {
 	opacity: 0.9;
 	cursor: pointer;
 }
 
+/* For States and Amenities */
 .locations,
 .amenities {
 	height: 100%;
@@ -36,6 +38,7 @@ button:hover {
 	display: flex;
 	flex-direction: column;
 	justify-content: center;
+	position: relative;
 }
 
 .amenities {
@@ -45,17 +48,22 @@ button:hover {
 
 .locations {
 	border-right: 1px solid #DDDDDD;
-	/* margin-right: auto;*/
 	margin-left: 60px;
+	display: flex;
+	flex-direction: column;
 }
 
-h3 {
+.amenities h3,
+.locations h3 {
 	font-weight: 600;
 	margin: 0;
+	cursor: pointer;
 }
 
-h4 {
+.amenities h4,
+.locations h4 {
 	font-weight: 400;
 	font-size: 14px;
 	margin: 0;
+	cursor: pointer;
 }
