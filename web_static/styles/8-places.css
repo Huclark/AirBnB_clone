@@ -24,7 +24,6 @@
 	justify-content: center;
 	flex-direction: column;
 	position: relative;
-	z-index: -1; /* To make the popover display over the articles */
 	height: 350px;
 }
 
@@ -95,5 +94,5 @@
 .description {
 	flex: 1; /* Make the description take up available space and expand vertically */
 	overflow-y: auto;
-	z-index: -4;
+	z-index: 1;
 }
