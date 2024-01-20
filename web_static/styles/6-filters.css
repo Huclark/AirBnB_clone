@@ -79,6 +79,7 @@
 	left: -24.5%;
 	margin: 0;
 	padding-bottom: 20px;
+	z-index: 1;
 }
 
 .amenities .popover {
