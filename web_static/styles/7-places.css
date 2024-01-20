@@ -3,7 +3,7 @@
 	margin-top: 40px;
 }
 
-.places-articles {
+.places_articles {
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: center;
