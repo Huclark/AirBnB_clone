@@ -30,7 +30,7 @@
 }
 /* For States and Amenities */
 .locations,
-.amenities {
+.filters .amenities {
 	height: 100%;
 	width: 25%;
 	align-items: flex-start;
@@ -40,7 +40,7 @@
 	position: relative;
 }
 
-.amenities {
+.filters .amenities {
 	margin-right: auto;
 	margin-left: 60px;
 }
@@ -52,14 +52,14 @@
 	flex-direction: column;
 }
 
-.amenities h3,
+.filters .amenities h3,
 .locations h3 {
 	font-weight: 600;
 	margin: 0;
 	cursor: pointer;
 }
 
-.amenities h4,
+.filters .amenities h4,
 .locations h4 {
 	font-weight: 400;
 	font-size: 14px;
@@ -82,7 +82,7 @@
 	z-index: 1;
 }
 
-.amenities .popover {
+.filters .amenities .popover {
 	padding: 40px 0 40px 60px;
 	position: absolute;
 }
@@ -95,7 +95,7 @@
 }
 
 .locations:hover .popover,
-.amenities:hover .popover {
+.filters .amenities:hover .popover {
 	display: block;
 }
 
@@ -120,7 +120,7 @@
 
 @media screen and (max-width: 1000px) {
   .locations .popover,
-  .amenities .popover {
+  .filters .amenities .popover {
     width: 100%; /* Adjust the width for smaller screens */
   }
 
@@ -132,7 +132,7 @@
 		padding-bottom: 40px;
 	}
 
-  .amenities .popover {
+  .filters .amenities .popover {
 		left: 0;
     margin-left: -62px; /* Reduce margin for amenities popover */
 		padding-left: 60px;
