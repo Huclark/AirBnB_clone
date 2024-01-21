@@ -10,6 +10,7 @@
 	align-items: center;
 	position: relative;
 	justify-content: flex-end;
+	margin: 0 auto;
 }
 /* Filters button */
 .filters button {
@@ -146,4 +147,8 @@
   .popover ul {
     padding-left: 20px; /* Adjust padding for list items */
   }
+
+	.filters {
+		width: 96%;
+	}
 }
