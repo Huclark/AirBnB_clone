@@ -1,6 +1,10 @@
 .places {
-	padding-left: 20px;
+	/* padding-left: 20px; */
 	margin-top: 40px;
+}
+
+.places h1 {
+	padding-left: 20px;
 }
 
 .places_articles {
@@ -23,20 +27,25 @@
 	display: flex;
 	justify-content: center;
 	flex-direction: column;
-	position: relative;
-	height: 350px;
+	min-height: 100px;
 }
 
-.places h2 {
+.places article > h2 {
 	font-size: 30px;
-	margin-top: 5px;
-	margin-bottom: 50px;
 	text-align: center;
+	margin-bottom: 50px;
+	margin-top: 5px;
+}
+
+.price_container {
+	position: relative;
+	margin-top: 20px;
 }
 
 .price_by_night {
 	color: #FF5A5F;
 	border: 4px solid #FF5A5F;
+	width: 60px;
 	min-width: 60px;
 	height: 60px;
 	font-size: 30px;
@@ -46,9 +55,34 @@
 	justify-content: center;
 	padding: 10px;
 	position: absolute;
-	bottom: 70%;
-	left: 75%;
-	margin: 10px 0 15px 0;
+	bottom: 88.5%;
+	right: 0px;
+	margin: 10px 0px 15px 0;
+}
+
+@media  screen and (max-width: 575px) {
+	.places article > h2 {
+		margin-right: 60px;
+		/* padding-top: 20px; */
+	}
+
+	.places_articles {
+		width: 100%;
+		/* justify-content: center; */
+		margin-left: 0px;
+	}
+
+	.places article {
+		width: 300px;
+		margin-right: 0px;
+		margin-left: 0px;
+	}
+}
+
+@media screen and (min-width: 768px) and (max-width: 1000px) {
+	.places article {
+		width: 550px;
+	}
 }
 
 .information {
@@ -93,7 +127,88 @@
 }
 
 .description {
-	flex: 1; /* Make the description take up available space and expand vertically */
-	overflow-y: auto;
-	z-index: 1;
+	flex: 1;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+.places .amenities {
+	margin-top: 40px;
+}
+
+.reviews {
+	margin-top: 20px;
+	flex: 5;
+}
+
+.places .amenities h2,
+.reviews h2 {
+	font-size: 16px;
+	border-bottom: 1px solid #DDDDDD;
+	text-align: left;
+	padding-bottom: 5px;
+
+}
+
+.tv {
+	background-image: url("../images/tv_icon.png");
+}
+
+.wifi {
+	background-image: url("../images/wifi_icon.png");
+}
+
+.pets {
+	background-image: url("../images/pets_icon.png");
+}
+
+.wifi,
+.tv,
+.pets {
+	background-repeat: no-repeat;
+	background-size: cover;
+	display: inline-block;
+	height: 20px;
+	width: 20px;
+}
+
+.reviews h3 {
+	font-size: 14px;
+}
+
+.reviews p {
+	font-size: 12px;
+	line-height: 15px;
+	padding-top: 10px;
+	margin-top: -25px;
+}
+
+.places .amenities ul {
+	list-style: none;
+	line-height: 20px;
+	padding: 0;
+}
+
+.places .amenities ul li {
+	display: flex;
+	justify-content: flex-start;
+	align-items: end;
+	align-content: center;
+	align-items: end;
+	padding-bottom: 10px;
+}
+
+.places .amenities span {
+	padding-left: 12px;
+}
+
+.reviews ul {
+	list-style: none;
+	line-height: 30px;
+	padding-left: 0px;
+	padding-bottom: 50px;
+}
+
+.reviews ul li {
+	margin-top: -10px;
 }
