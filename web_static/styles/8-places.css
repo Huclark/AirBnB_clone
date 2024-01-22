@@ -65,6 +65,7 @@
 .number_rooms,
 .number_bathrooms {
 	height: 70px;
+	width: 100px;
 	background-repeat: no-repeat;
 	background-position-y: 5px;
 	display: flex;
