@@ -120,6 +120,21 @@
 }
 
 @media screen and (max-width: 1000px) {
+	.filters .amenities h4,
+	.locations h4 {
+		font-size: 12px;
+	}
+
+	.filters .amenities,
+	.locations {
+		margin-left: 30px;
+	}
+
+	.filters button {
+		width: 22%;
+		margin-right: 15px;
+	}
+
   .locations .popover,
   .filters .amenities .popover {
     width: 100%; /* Adjust the width for smaller screens */
