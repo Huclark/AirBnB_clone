@@ -1,11 +1,10 @@
-# 0x00. AirBnB clone - The console
-
-This is a solution to the [Blog preview card challenge on Frontend Mentor](https://www.frontendmentor.io/challenges/blog-preview-card-ckPaj01IcS). Frontend Mentor challenges help you improve your coding skills by building realistic projects.
+# AirBnB Clone
+![HBNB logo](https://github.com/Huclark/AirBnB_clone/blob/main/web_static/images/hbnb_big_logo.png?raw=true)
 
 ## Table of contents
 
 - [Overview](#overview)
-  - [The challenge](#the-challenge)
+  - [About](#about)
   - [Screenshot](#screenshot)
   - [Links](#links)
 - [My process](#my-process)
