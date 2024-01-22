@@ -120,14 +120,13 @@
 }
 
 @media screen and (max-width: 1000px) {
-	.filters .amenities h4,
-	.locations h4 {
-		font-size: 12px;
-	}
-
 	.filters .amenities,
 	.locations {
 		margin-left: 30px;
+	}
+	.filters .amenities h4,
+	.locations h4 {
+		font-size: 12px;
 	}
 
 	.filters button {
@@ -135,23 +134,20 @@
 		margin-right: 15px;
 	}
 
-  .locations .popover,
-  .filters .amenities .popover {
-    width: 100%; /* Adjust the width for smaller screens */
-  }
-
 	.locations .popover {
 		left: 0;
-		width: calc(100% + 20px);
-		margin-left: -60px; /* Reduce the margin on smaller screens */
+		width: 100%;
+		margin-left: -31px; /* Reduce the margin on smaller screens */
 		padding-top: 18px;
 		padding-bottom: 40px;
+		padding-left: 30px;
 	}
 
   .filters .amenities .popover {
 		left: 0;
-    margin-left: -62px; /* Reduce margin for amenities popover */
-		padding-left: 60px;
+    margin-left: -31px; /* Reduce margin for amenities popover */
+		padding-left: 30px;
+		width: 100%;
   }
 
   .popover h2 {
