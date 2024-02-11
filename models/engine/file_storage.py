@@ -71,5 +71,5 @@ class FileStorage:
                 for key, obj in load_obj.items():
                     clsname = key.split(".")
                     self.__objects[key] = self.__all_classes[clsname[0]](**obj)
-        except FileNotFoundError:
+        except (FileNotFoundError, PermissionError, TypeError):
             pass
