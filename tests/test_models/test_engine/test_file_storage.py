@@ -157,8 +157,24 @@ class TestFileStorage(unittest.TestCase):
         """
         # Call save to create the JSON file
         self.test_storage.save()
+        try:
+            with open(
+                    self.test_storage._FileStorage__file_path,
+                    "r",
+                    encoding="utf-8"
+                    ) as file:
+                file_content = file.read()
+        except (FileNotFoundError, PermissionError):
+            pass
+        self.assertEqual(file_content, "{}")
         # Delete the JSON file
         os.remove("test_file.json")
+        with self.assertRaises(FileNotFoundError):
+            open(
+                self.test_storage._FileStorage__file_path,
+                "r",
+                encoding="utf-8"
+                )
         # Try to load the saved data from the JSON file
         self.test_storage.reload()
         # Check if __objects is empty
@@ -213,11 +229,6 @@ class TestFileStorage(unittest.TestCase):
         # Check if __object is still empty
         # since the file path was changed
         self.assertEqual(self.test_storage.all(), {})
-
-    def no_json_file(self):
-        """Test reload with non-existing file"""
-        self.test_storage.reload()
-        self
 
     def test_special_characters(self):
         """Test if save() can handle instances with attributes
