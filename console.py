@@ -169,7 +169,7 @@ class HBNBCommand(cmd.Cmd):
         """
         # Print all instances if no argument exists
         if not arg:
-            print([str(value) for _, value in models.storage.all().items()])
+            print([str(value) for value in models.storage.all().values()])
         else:
             # Store various command arguments in a list
             argv = shlex.split(arg)
@@ -180,10 +180,10 @@ class HBNBCommand(cmd.Cmd):
             # Create a list to contain all instances of the class
             new_list = []
             # Iterate over the instances dictionary
-            for _, value in models.storage.all().items():
+            for obj in models.storage.all().values():
                 # If an instance is found, append to new_list
-                if argv[0] == type(value).__name__:
-                    new_list.append(str(value))
+                if argv[0] == type(obj).__name__:
+                    new_list.append(str(obj))
             # print list
             print(new_list)
 
@@ -289,8 +289,11 @@ class HBNBCommand(cmd.Cmd):
         arg = line.split(".", 1)
         # arg = [classname, "command(arguments)"]
         # Validate class name and command syntax
-        if len(arg) < 2 or arg[0] not in list(self.__all_classes.keys()):
+        if len(arg) < 2:
             print("*** Unknown syntax: {}".format(arg[0]))
+            return
+        if arg[0] not in list(self.__all_classes.keys()):
+            print("** class doesn't exist **")
             return
         # Put command and arguments into a list
         command = arg[1].split("(", 1)
