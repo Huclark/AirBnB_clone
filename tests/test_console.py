@@ -243,7 +243,8 @@ class TestHBNBCommand(unittest.TestCase):
         self.clear_stringio()
         # Test too many arguments (dictionary method)
         # Construct user input
-        user_input = "City.update(" + str_id + " {'name': 'John'} " + "JohnDoe)"
+        user_input =\
+            "City.update(" + str_id + " {'name': 'John'} " + "JohnDoe)"
         # Simulate command
         self.assertIsNone(self.console.onecmd(user_input))
         # Print out all City instances
